@@ -27,25 +27,24 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 #define LAYER_BASE 0
+#define LAYER_LAST 15
 
 #define LAYER_NAV 3
 #define LAYER_SYM 4
-#define LAYER_PAD 5
-#define LAYER_SFT_TO_SYM 13
+#define LAYER_GAME 12
 #define LAYER_ALPHA_TOP 14
-#define LAYER_LAST 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(/* Base */
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       KC_BSPC, KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
-      LM(LAYER_SFT_TO_SYM, MOD_LSFT), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), MO(LAYER_NAV), KC_LCTL,
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, MO(LAYER_SYM),
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RSFT,
       KC_ENT, KC_SPC, MO(LAYER_SYM), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
@@ -53,11 +52,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TILDE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
       _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
-      _______, _______, _______, _______, _______, _______, _______, 
+      _______, _______, _______, _______, _______, _______, _______,
 
       _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
       _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F12,
-      _______, _______, KC_LCTL, KC_LSFT, KC_LALT, _______, _______,
+      _______, TG(LAYER_GAME), KC_LCTL, KC_LSFT, KC_LALT, _______, _______,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -73,11 +72,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_0, KC_DOT, _______, _______, _______, _______
     ),
 
-    [LAYER_SFT_TO_SYM] = LAYOUT(
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, MO(LAYER_SYM), _______,
+    [LAYER_GAME] = LAYOUT(
+      KC_ESC, _______, _______, _______, _______, _______, _______,
+      KC_TAB, _______, _______, _______, _______, _______, _______,
+      KC_LSFT, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, KC_SPC, KC_LCTL, MO(LAYER_NAV),
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
