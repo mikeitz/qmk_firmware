@@ -19,57 +19,65 @@
 enum custom_keycodes { BASE = SAFE_RANGE };
 
 enum {
-  TD_ALT_GUI = 0
+  TD_ALT_GUI = 0,
+  TD_SFT_CTL = 1,
 };
 
+#define ACTION_TAP_DANCE_DOUBLE_SLOW(kc1, kc2) \
+  { .fn = {qk_tap_dance_pair_on_each_tap, qk_tap_dance_pair_finished, qk_tap_dance_pair_reset}, \
+    .user_data = (void *)&((qk_tap_dance_pair_t){kc1, kc2}), \
+    .custom_tapping_term = 500, }
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_ALT_GUI]  = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_LGUI)
+  [TD_ALT_GUI] = ACTION_TAP_DANCE_DOUBLE_SLOW(KC_LALT, KC_LGUI),
+  [TD_SFT_CTL] = ACTION_TAP_DANCE_DOUBLE_SLOW(KC_LSFT, KC_LCTL),
 };
 
 #define LAYER_BASE 0
-#define LAYER_LAST 15
 
 #define LAYER_NAV 3
 #define LAYER_SYM 4
 #define LAYER_GAME 12
-#define LAYER_ALPHA_TOP 14
+
+#define LAYER_LAST 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(/* Base */
-      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
-      KC_BSPC, KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
-      KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), MO(LAYER_NAV), KC_LCTL,
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
+      XXXXXXX, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RSFT,
-      KC_ENT, KC_SPC, MO(LAYER_SYM), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_NAV), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
-
+    
     [LAYER_SYM] = LAYOUT(
       KC_TILDE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
+      KC_GRAVE, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
       _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
-      _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
-      _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F12,
-      _______, TG(LAYER_GAME), KC_LCTL, KC_LSFT, KC_LALT, _______, _______,
+      _______, KC_ASTERISK, KC_7, KC_8, KC_9, KC_EQUAL, _______,
+      _______, KC_PLUS, KC_4, KC_5, KC_6, KC_0, _______,
+      _______, KC_MINUS, KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      KC_ESC, KC_HOME, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
-      KC_DEL, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      MO(LAYER_SYM), KC_ENT, S(KC_TAB), KC_TAB, KC_SPC, G(KC_L), _______,
+      _______, KC_HOME, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
+      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      _______, S(KC_TAB), KC_TAB, KC_ENT, KC_SPC, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
-      _______, _______, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
-      _______, KC_PLUS, KC_4, KC_5, KC_6, KC_ASTERISK, KC_GRAVE,
-      _______, KC_MINUS, KC_1, KC_2, KC_3, KC_SLASH, _______,
-      _______, KC_0, KC_DOT, _______, _______, _______, _______
+
+      _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
+      _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F12,
+      _______, TG(LAYER_GAME), _______, KC_LCTL, KC_LSFT, KC_LALT, _______, 
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_GAME] = LAYOUT(
@@ -81,18 +89,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______
-    ),
-
-    [LAYER_ALPHA_TOP] = LAYOUT(
-      _______, KC_Q, KC_W, KC_E, KC_R, KC_T, _______,
-      _______, KC_A, KC_S, KC_D, KC_F, KC_G, _______,
-      _______, KC_Z, KC_X, KC_C, KC_V, KC_B, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-
-      _______, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
-      _______, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      _______, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, _______,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
