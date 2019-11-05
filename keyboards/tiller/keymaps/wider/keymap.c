@@ -45,10 +45,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      ALT_T(KC_TAB), KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
-      CTL_T(KC_DEL), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
+      KC_LWIN, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
       SFT_T(KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LGUI, SFT_T(KC_BSPC), CTL_T(KC_TAB),
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT, SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TILDE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
       _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
-      _______, _______, _______, _______, _______, KC_BSPC, KC_SPC,
+      _______, _______, _______, _______, _______, _______, KC_SPC,
 
       _______, KC_ASTERISK, KC_7, KC_8, KC_9, KC_EQUAL, _______,
       _______, KC_PLUS, KC_4, KC_5, KC_6, KC_0, KC_GRAVE,
