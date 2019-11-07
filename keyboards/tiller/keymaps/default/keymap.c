@@ -15,110 +15,135 @@
  */
 #include QMK_KEYBOARD_H
 
-// Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes { QMKBEST = SAFE_RANGE, QMKURL };
+// -path:keyboards -path:users -path:layouts -path:docs
 
-#define LAYER_SYM 2
-#define LAYER_NUM 1
-#define LAYER_FN 3
-#define LAYER_NUM2 4
+// Defines the keycodes used by our macros in process_record_user
+enum custom_keycodes { BASE = SAFE_RANGE };
+
+enum {
+  TD_ALT_GUI = 0,
+};
+
+#define ACTION_TAP_DANCE_DOUBLE_SLOW(kc1, kc2) \
+  { .fn = {qk_tap_dance_pair_on_each_tap, qk_tap_dance_pair_finished, qk_tap_dance_pair_reset}, \
+    .user_data = (void *)&((qk_tap_dance_pair_t){kc1, kc2}), \
+    .custom_tapping_term = 500, }
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_ALT_GUI] = ACTION_TAP_DANCE_DOUBLE_SLOW(KC_LALT, KC_LGUI),
+};
+
+#define LAYER_BASE 0
+#define LAYER_COLEMAK 1
+
+#define LAYER_NAV 3
+#define LAYER_SYM 4
+#define LAYER_FN 5
+#define LAYER_GAME 12
+
+#define LAYER_LAST 15
+
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT(/* Base */
 
-      LT(LAYER_NUM2, KC_ESC), KC_Q, KC_W, KC_E, KC_R, KC_T, MO(LAYER_FN),
-      LT(LAYER_SYM, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, KC_NO,
-      KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_NO,
-      KC_LCTRL, KC_LWIN, KC_LALT, KC_ENT, ALT_T(KC_SPC), CTL_T(KC_BSPC), LT(LAYER_NUM, KC_DEL),
+    [LAYER_BASE] = LAYOUT(
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
+      RSFT_T(KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), LT(LAYER_NAV, KC_BSPC), CTL_T(KC_DEL),
 
-      MO(LAYER_FN), KC_Y, KC_U, KC_I, KC_O, KC_P, LT(LAYER_NUM2, KC_MINUS),
-      KC_NO, KC_H, KC_J, KC_K, KC_L, LT(LAYER_NUM, KC_SCOLON), LT(LAYER_SYM, KC_QUOTE),
-      KC_NO, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, SFT_T(KC_BSLASH),
-      LT(LAYER_NUM, KC_ENT), KC_SPC, KC_LWIN, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
+      XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
+      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, RCTL_T(KC_QUOTE),
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RSFT,
+      SFT_T(KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX 
     ),
 
-    [LAYER_NUM] = LAYOUT(
-      KC_ESC, C(KC_BSPC), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME, A(KC_F4),
-      KC_TAB, KC_SPC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, KC_F2,
-      KC_LSFT, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), KC_BSPC, KC_NO,
-      KC_LCTRL, KC_LWIN, KC_LALT, KC_ENT, ALT_T(KC_SPC), CTL_T(KC_BSPC), SFT_T(KC_DEL),
+    [LAYER_COLEMAK] = LAYOUT(
+      _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
+      _______, KC_A, KC_R, KC_S, KC_T, KC_G, _______,
+      _______, KC_Z, KC_X, KC_C, KC_D, KC_V, _______,
+      _______, _______, _______, _______, _______, _______, _______,
 
-      KC_NO, KC_6, KC_7, KC_8, KC_9, KC_0, KC_BSPC,
-      KC_NO, KC_0, KC_4, KC_5, KC_6, KC_0, KC_ENTER,
-      KC_NO, KC_0, KC_1, KC_2, KC_3, KC_0, KC_RSFT,
-      SFT_T(KC_ENT), CTL_T(KC_SPC), KC_0, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
+      _______, KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, _______,
+      _______, KC_M, KC_N, KC_E, KC_I, KC_O, _______,
+      _______, KC_K, KC_H, KC_COMMA, KC_DOT, KC_SLASH, _______,
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_ESC, KC_EXCLAIM, KC_AT, KC_HASH, KC_LBRACKET, KC_RBRACKET, A(KC_F4),
-      KC_TAB, KC_SPC, KC_DOLLAR, KC_PERCENT, KC_LPRN, KC_RPRN, KC_F2,
-      KC_LSFT, KC_NO, KC_NO, KC_NO, KC_LCBR, KC_RCBR, KC_NO,
-      KC_LCTRL, KC_LWIN, KC_LALT, KC_ENT, ALT_T(KC_SPC), CTL_T(KC_BSPC), SFT_T(KC_DEL),
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
+      KC_TILDE, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
+      _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
+      _______, _______, _______, _______, _______, _______, KC_SPC,
 
-      KC_NO, KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_PLUS, KC_EQUAL, KC_MINUS,
-      KC_NO, KC_NO, KC_TILDE, KC_GRAVE, KC_NO, KC_NO, KC_QUOTE,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_BSLASH,
-      SFT_T(KC_ENT), CTL_T(KC_SPC), KC_LWIN, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
+      _______, KC_ASTERISK, KC_7, KC_8, KC_9, KC_EQUAL, _______,
+      _______, KC_PLUS, KC_4, KC_5, KC_6, KC_0, KC_GRAVE,
+      _______, KC_MINUS, KC_1, KC_2, KC_3, KC_DOT, _______,
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
+    [LAYER_NAV] = LAYOUT(
+      _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
+      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      _______, KC_ENT, _______, _______, KC_SPC, _______, _______,
+      _______, _______, _______, _______, _______, _______,  _______,
+
+
+      _______, _______, S(C(KC_Z)), C(KC_Z), _______, _______, _______,
+      _______, C(KC_X), KC_RCTL, KC_RSFT, KC_RALT, KC_BSPC, _______,
+      _______, _______, C(KC_C), C(KC_V), _______, KC_DEL, _______,
+      _______, _______, _______, _______, _______, _______, _______
+    ),
 
     [LAYER_FN] = LAYOUT(
-      KC_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, A(KC_F4),
-      KC_TAB, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F2,
-      KC_LSFT, KC_F11, KC_F12, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_LCTRL, KC_LWIN, KC_LALT, KC_ENT, KC_LALT, KC_LCTRL, KC_LSFT,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
 
-      KC_NO, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_BSPC,
-      KC_NO, KC_NO, KC_F4, KC_F5, KC_F6, KC_F11, KC_ENTER,
-      KC_NO, KC_NO, KC_F1, KC_F2, KC_F3, KC_F12, KC_RSFT,
-      KC_LSFT, KC_LCTRL, KC_LWIN, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT
+
+      _______, KC_F10, KC_F7, KC_F8, KC_F9, KC_F10, _______,
+      _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_LALT, _______,
+      _______, KC_F12, KC_F1, KC_F2, KC_F3, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
-    [LAYER_NUM2] = LAYOUT(
-      KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_NO,
-      KC_NO, KC_6, KC_7, KC_8, KC_9, KC_0, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    [LAYER_GAME] = LAYOUT(
+      KC_ESC, _______, _______, _______, _______, _______, _______,
+      KC_TAB, _______, _______, _______, _______, _______, _______,
+      KC_LSFT, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, KC_SPC, KC_LCTL, MO(LAYER_NAV),
 
-      KC_NO, KC_6, KC_7, KC_8, KC_9, KC_0, KC_NO,
-      KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
-    [9] = LAYOUT(
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    [LAYER_LAST] = LAYOUT(
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
 
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
-    ),
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______
+    )
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case QMKBEST:
-            if (record->event.pressed) {
-                // when keycode QMKBEST is pressed
-                SEND_STRING("QMK is the best thing ever!");
-            } else {
-                // when keycode QMKBEST is released
-            }
-            break;
-        case QMKURL:
-            if (record->event.pressed) {
-                // when keycode QMKURL is pressed
-                SEND_STRING("https://qmk.fm/" SS_TAP(X_ENTER));
-            } else {
-                // when keycode QMKURL is released
-            }
-            break;
+  switch (keycode) {
+    case BASE:
+      if (record->event.pressed) {
+        set_single_persistent_default_layer(LAYER_BASE);
+      }
+      return false;
+      break;
     }
-    return true;
+  return true;
 }
 
 void matrix_init_user(void) {}
