@@ -20,8 +20,19 @@ enum custom_keycodes { BASE = SAFE_RANGE };
 
 enum {
   TD_ALT_GUI = 0,
-  TD_SFT_CTL = 1,
+  TD_WIN_STAB,
 };
+
+typedef enum {
+  SINGLE_TAP,
+  SINGLE_HOLD,
+} td_state_t;
+static td_state_t td_state;
+
+int cur_dance (qk_tap_dance_state_t *state);
+void win_stab_each (qk_tap_dance_state_t *state, void *user_data);
+void win_stab_finished (qk_tap_dance_state_t *state, void *user_data);
+void win_stab_reset (qk_tap_dance_state_t *state, void *user_data);
 
 #define ACTION_TAP_DANCE_DOUBLE_SLOW(kc1, kc2) \
   { .fn = {qk_tap_dance_pair_on_each_tap, qk_tap_dance_pair_finished, qk_tap_dance_pair_reset}, \
@@ -30,7 +41,7 @@ enum {
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_ALT_GUI] = ACTION_TAP_DANCE_DOUBLE_SLOW(KC_LALT, KC_LGUI),
-  [TD_SFT_CTL] = ACTION_TAP_DANCE_DOUBLE_SLOW(KC_LSFT, KC_LCTL),
+  [TD_WIN_STAB] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(win_stab_each, win_stab_finished, win_stab_reset, 300),
 };
 
 #define LAYER_BASE 0
@@ -38,6 +49,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 #define LAYER_NAV 3
 #define LAYER_SYM 4
+#define LAYER_WIN 5
+#define LAYER_STAB 6
 #define LAYER_GAME 12
 
 #define LAYER_LAST 15
@@ -45,15 +58,15 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_LWIN, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      TD(TD_WIN_STAB), KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
-      SFT_T(KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT, SFT_T(KC_BSPC), CTL_T(KC_DEL),
+      LT(LAYER_WIN, KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
-      XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, RGUI_T(KC_MINUS),
-      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, RCTL_T(KC_QUOTE),
-      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, RSFT_T(KC_ESC),
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+      XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
+      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RALT,
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_COLEMAK] = LAYOUT(
@@ -69,8 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_TILDE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
+      KC_TILDE, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
       _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
       _______, _______, _______, _______, _______, _______, KC_SPC,
 
@@ -81,15 +94,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, KC_HOME, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
-      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      _______, S(KC_TAB), KC_TAB, KC_ENT, KC_SPC, _______, _______,
+      _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
+      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      _______, KC_ENT, _______, _______, KC_SPC, _______, _______,
       _______, _______, _______, _______, _______, _______,  _______,
 
 
       _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
       _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F12,
       _______, TG(LAYER_GAME), TG(LAYER_COLEMAK), KC_LSFT, KC_LALT, KC_LCTL, _______,
+      _______, _______, _______, _______, _______, _______, _______
+    ),
+
+    [LAYER_STAB] = LAYOUT(
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, S(KC_TAB), KC_TAB, S(KC_TAB),
+
+
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______
+    ),
+
+    [LAYER_WIN] = LAYOUT(
+      _______, _______, A(KC_F4), G(KC_E), G(KC_R), C(S(KC_ESC)), _______,
+      _______, G(KC_PSCR), G(S(KC_S)), G(KC_D), G(KC_M), G(S(KC_M)), _______,
+      _______, G(KC_L), G(KC_X), _______, _______, _______, _______,
+      _______, _______, _______, _______, C(S(KC_TAB)), C(KC_TAB), C(S(KC_TAB)),
+
+      _______, _______, G(S(KC_DOWN)), G(KC_UP), G(S(KC_UP)), KC_PSCR, _______,
+      _______, _______, G(KC_LEFT), G(KC_DOWN), G(KC_RIGHT), _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -135,3 +173,40 @@ void matrix_init_user(void) {}
 void matrix_scan_user(void) {}
 
 void led_set_user(uint8_t usb_led) {}
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->pressed && (state->interrupting_keycode == S(KC_TAB) || state->interrupting_keycode == KC_TAB)) {
+    return SINGLE_HOLD;
+  } else {
+    return SINGLE_TAP;
+  }
+}
+
+void win_stab_each (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1 && state->pressed) {
+      layer_on(LAYER_STAB);
+  }
+}
+
+void win_stab_finished (qk_tap_dance_state_t *state, void *user_data) {
+  switch (td_state = cur_dance(state)) {
+    case SINGLE_TAP:                                      
+      tap_code(KC_LGUI);
+      break;
+    case SINGLE_HOLD:
+      register_mods(MOD_BIT(KC_LALT));
+      break;
+  }
+}
+
+void win_stab_reset (qk_tap_dance_state_t *state, void *user_data) {
+  layer_off(LAYER_STAB);
+  switch (td_state) {
+    case SINGLE_TAP:
+      unregister_code16(KC_LGUI);
+      break;
+    case SINGLE_HOLD:
+      unregister_mods(MOD_BIT(KC_LALT));
+      break;
+  }
+}
