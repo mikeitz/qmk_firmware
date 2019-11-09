@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COLS 7
 
 #define TAPPING_TERM 175
+#undef ONESHOT_TAP_TOGGLE
+#define ONESHOT_TIMEOUT 1000
 
 /*
  * Keyboard Matrix Assignments
