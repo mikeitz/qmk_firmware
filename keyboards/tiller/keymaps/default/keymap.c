@@ -144,6 +144,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         register_code(KC_LSFT);
       } else {
         bool ctl_alt = get_mods() & (MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT)|MOD_BIT(KC_RCTL)|MOD_BIT(KC_LCTL));
+        ctl_alt |= layer_state_is(LAYER_NAV);
         bool timed_out = timer_elapsed(esc_stab_timer) > TAPPING_TERM;
         if (!timed_out && !interrupted && ctl_alt) {
           tap_code(KC_TAB);
