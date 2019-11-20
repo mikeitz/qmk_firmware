@@ -69,10 +69,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE, _______,
-      _______, KC_PERCENT, KC_CIRCUMFLEX, KC_LBRACKET, KC_RBRACKET, KC_AMPERSAND, _______,
-      _______, _______, _______, _______, _______, _______, KC_SPC,
+      _______, KC_HASH, KC_AT, KC_LCBR, KC_RCBR, KC_CIRCUMFLEX, _______,
+      _______, KC_AMPERSAND, KC_PIPE, KC_LPRN, KC_RPRN, KC_EXCLAIM, _______,
+      _______, KC_PERCENT, KC_DOLLAR, KC_LBRACKET, KC_RBRACKET, KC_BSLASH, _______,
+      _______, _______, _______, _______, _______, KC_BSPC, KC_SPC,
 
       _______, KC_EQUAL, KC_7, KC_8, KC_9, KC_ASTERISK, _______,
       _______, KC_MINUS, KC_4, KC_5, KC_6, KC_0, _______,
@@ -81,16 +81,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      KC_ESC, KC_ESC, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
-      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      KC_ESC, KC_ESC, KC_HOME, KC_UP, KC_END, _______, _______,
+      _______, C(KC_LEFT), KC_LEFT, KC_DOWN, KC_RIGHT, C(KC_RIGHT), _______,
       _______, KC_ENT, _______, _______, KC_SPC, _______, _______,
       _______, _______, _______, _______, _______, _______,  _______,
 
 
       _______, _______, KC_EQUAL, KC_ASTERISK, KC_GRAVE, KC_TILDE, _______,
       _______, KC_BSPC, KC_MINUS, KC_UNDERSCORE, KC_DQUO, KC_QUOTE, _______,
-      _______, KC_DEL, KC_PLUS, KC_RSFT, KC_RALT, KC_RCTL, _______,
-      _______, _______, _______, _______, _______, _______, _______
+      _______, KC_DEL, KC_PLUS, KC_RSFT, KC_RALT, KC_RCTL, KC_RSFT,
+      _______, CTL_T(KC_SPC), KC_LALT, _______, _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
@@ -110,12 +110,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC, _______, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______, _______,
       KC_LSFT, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, KC_SPC, KC_LCTL, MO(LAYER_NAV),
+      _______, _______, _______, _______, KC_LALT, KC_SPC, KC_LCTL,
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______
+      _______, MO(LAYER_NAV), _______, _______, _______, _______, _______
     ),
 
     [LAYER_LAST] = LAYOUT(
