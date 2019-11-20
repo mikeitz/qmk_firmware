@@ -56,8 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       SFT_T(KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX 
     ),
 
-    [LAYER_COLEMAK] = LAYOUT(
-      _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
+    [LAYER_COLEMAK] = LAYOUT(     _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
       _______, KC_A, KC_R, KC_S, KC_T, KC_G, _______,
       _______, KC_Z, KC_X, KC_C, KC_D, KC_V, _______,
       _______, _______, _______, _______, _______, _______, _______,
@@ -69,9 +68,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_HASH, KC_AT, KC_LCBR, KC_RCBR, KC_CIRCUMFLEX, _______,
+      _______, KC_HASH, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
       _______, KC_AMPERSAND, KC_PIPE, KC_LPRN, KC_RPRN, KC_EXCLAIM, _______,
-      _______, KC_PERCENT, KC_DOLLAR, KC_LBRACKET, KC_RBRACKET, KC_BSLASH, _______,
+      _______, KC_PERCENT, KC_DOLLAR, KC_LBRACKET, KC_RBRACKET, _______, _______,
       _______, _______, _______, _______, _______, KC_BSPC, KC_SPC,
 
       _______, KC_EQUAL, KC_7, KC_8, KC_9, KC_ASTERISK, _______,
@@ -87,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,  _______,
 
 
-      _______, _______, KC_EQUAL, KC_ASTERISK, KC_GRAVE, KC_TILDE, _______,
+      _______, KC_CIRCUMFLEX, KC_EQUAL, KC_ASTERISK, KC_TILDE, KC_GRAVE, _______,
       _______, KC_BSPC, KC_MINUS, KC_UNDERSCORE, KC_DQUO, KC_QUOTE, _______,
       _______, KC_DEL, KC_PLUS, KC_RSFT, KC_RALT, KC_RCTL, KC_RSFT,
       _______, CTL_T(KC_SPC), KC_LALT, _______, _______, _______, _______
