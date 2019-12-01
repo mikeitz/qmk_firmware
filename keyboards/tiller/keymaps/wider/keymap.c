@@ -70,8 +70,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, _______, _______,
-      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, _______, _______,
-      _______, KC_PERCENT, KC_BSLASH, KC_LBRACKET, KC_RBRACKET, _______, _______,
+      KC_TILDE, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______, _______,
+      _______, KC_BSLASH, KC_PERCENT, KC_LBRACKET, KC_RBRACKET, _______, _______,
       _______, _______, _______, _______, _______, _______, CTL_T(KC_SPC),
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_PLUS, KC_KP_MINUS,
