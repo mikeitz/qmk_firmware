@@ -17,7 +17,7 @@
 
 // -path:keyboards -path:users -path:layouts -path:docs
 
-enum custom_keycodes { KC_STAB = SAFE_RANGE, };
+enum custom_keycodes { KC_STAB = SAFE_RANGE, KC_LOGIC };
 
 enum {
   TD_ALT_GUI = 0,
@@ -42,12 +42,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 #define LAYER_LAST 15
 
-bool numlock_on = false;
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      KC_LOGIC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
       KC_STAB, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), SFT_T(KC_BSPC), CTL_T(KC_DEL),
@@ -58,7 +56,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LT(LAYER_LAST, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX 
     ),
 
-    [LAYER_COLEMAK] = LAYOUT(     _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
+    [LAYER_COLEMAK] = LAYOUT(
+      _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
       _______, KC_A, KC_R, KC_S, KC_T, KC_G, _______,
       _______, KC_Z, KC_X, KC_C, KC_D, KC_V, _______,
       _______, _______, _______, _______, _______, _______, _______,
@@ -70,10 +69,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_BSLASH, _______,
-      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_PIPE, _______,
-      _______, KC_PERCENT, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______, _______,
-      _______, _______, _______, _______, _______, KC_SPC, KC_BSPC,
+      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, _______, _______,
+      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, _______, _______,
+      _______, KC_PERCENT, KC_BSLASH, KC_LBRACKET, KC_RBRACKET, _______, _______,
+      _______, _______, _______, _______, _______, _______, CTL_T(KC_SPC),
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_PLUS, KC_KP_MINUS,
       _______, KC_KP_SLASH, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_ASTERISK,
@@ -97,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_FN] = LAYOUT(
       _______, _______, _______, _______, _______, TG(LAYER_COLEMAK), _______,
       _______, _______, _______, _______, _______, TG(LAYER_GAME), _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, KC_NLCK, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
 
@@ -140,8 +139,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     last_keycode = keycode;
   }
-  if (!numlock_on) {
-    register_code(KC_NLCK);
+  if (!host_keyboard_led_state().num_lock) {
+    tap_code(KC_NLCK);
   }
   switch (keycode) {
     case KC_STAB:
@@ -160,19 +159,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           tap_code(KC_ESC);
         }
       }
-      break;
-    }
+      return false;
+    case KC_LOGIC:
+      if (record->event.pressed) {
+        if (get_mods() & (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))) {
+          tap_code16(KC_AMPERSAND);
+        } else {
+          tap_code16(KC_PIPE);
+        }
+      }
+      return false;
+  }
   return true;
 }
 
 void matrix_init_user(void) {}
 
 void matrix_scan_user(void) {}
-
-void led_set_user(uint8_t usb_led) {
-  if (usb_led & (1<<USB_LED_NUM_LOCK)) {
-    numlock_on = true;
-  } else {
-    numlock_on = false;
-  }
-}
