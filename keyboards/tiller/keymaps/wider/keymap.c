@@ -51,9 +51,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
-      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, LT(LAYER_NAV, KC_QUOTE),
+      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_EQUAL,
-      LT(LAYER_LAST, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX 
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_COLEMAK] = LAYOUT(
@@ -83,8 +83,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, KC_ENT, C(KC_BSPC),  C(KC_DEL),
+      _______, _______, _______, _______, KC_SPC, _______, _______,
+      _______, _______, _______, _______, ALT_T(KC_ENT), C(KC_BSPC), C(KC_DEL),
 
 
       _______, _______, _______, _______, _______, _______, _______,
