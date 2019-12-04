@@ -81,10 +81,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
+      _______, C(KC_BSPC), C(KC_LEFT), KC_UP, C(KC_RIGHT), C(KC_DEL), _______,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       _______, _______, _______, _______, KC_SPC, _______, _______,
-      _______, _______, _______, _______, ALT_T(KC_ENT), C(KC_BSPC), C(KC_DEL),
+      _______, _______, _______, _______, ALT_T(KC_ENT), _______, _______,
 
 
       _______, _______, _______, _______, _______, _______, _______,
