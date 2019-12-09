@@ -17,7 +17,7 @@
 
 // -path:keyboards -path:users -path:layouts -path:docs
 
-enum custom_keycodes { KC_STAB = SAFE_RANGE, KC_LOGIC };
+enum custom_keycodes { KC_STAB = SAFE_RANGE };
 
 enum {
   TD_ALT_GUI = 0,
@@ -45,14 +45,14 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_LOGIC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
+      XXXXXXX, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
       KC_STAB, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TD(TD_ALT_GUI), SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_EQUAL,
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
@@ -69,22 +69,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, _______, _______,
-      KC_TILDE, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______, _______,
-      _______, KC_BSLASH, KC_PERCENT, KC_LBRACKET, KC_RBRACKET, _______, _______,
+      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
+      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
+      _______, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_CIRCUMFLEX, _______,
       _______, _______, _______, _______, _______, _______, CTL_T(KC_SPC),
 
-      _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_PLUS, KC_KP_MINUS,
+      _______, KC_EQUAL, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_PLUS, KC_KP_MINUS,
       _______, KC_KP_SLASH, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_ASTERISK,
-      _______, KC_EQUAL, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
+      _______, KC_PLUS, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, C(KC_BSPC), C(KC_LEFT), KC_UP, C(KC_RIGHT), C(KC_DEL), _______,
+      _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       _______, _______, _______, _______, KC_SPC, _______, _______,
-      _______, _______, _______, _______, ALT_T(KC_ENT), _______, _______,
+      _______, _______, _______, _______, ALT_T(KC_ENT), C(KC_BSPC), C(KC_DEL),
 
 
       _______, _______, _______, _______, _______, _______, _______,
@@ -157,15 +157,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_LSFT);
         if (!timed_out && !interrupted && !ctl_alt) {
           tap_code(KC_ESC);
-        }
-      }
-      return false;
-    case KC_LOGIC:
-      if (record->event.pressed) {
-        if (get_mods() & (MOD_BIT(KC_LSFT)|MOD_BIT(KC_RSFT))) {
-          tap_code16(KC_AMPERSAND);
-        } else {
-          tap_code16(KC_PIPE);
         }
       }
       return false;
