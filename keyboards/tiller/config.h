@@ -31,9 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROWS 8
 #define MATRIX_COLS 7
 
-#define TAPPING_TERM 175
-#undef ONESHOT_TAP_TOGGLE
-#define ONESHOT_TIMEOUT 1000
+#define TAPPING_TERM 200
+#define QMK_KEYS_PER_SCAN 4
 
 /*
  * Keyboard Matrix Assignments
@@ -55,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
  */
-#define SOFT_SERIAL_PIN D0  // or D1, D2, D3, E6
+// #define SOFT_SERIAL_PIN D0  // or D1, D2, D3, E6
 
 // #define BACKLIGHT_PIN B7
 // #define BACKLIGHT_BREATHING
@@ -91,6 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 0
+// #define DEBOUNCE_TYPE eager_pk
 
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
@@ -251,20 +251,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 // #define BOOTMAGIC_LITE_ROW 0
 // #define BOOTMAGIC_LITE_COLUMN 0
-
-//UART settings for communication with the RF microcontroller
-#define SERIAL_UART_BAUD 1000000
-#define SERIAL_UART_DATA UDR1
-#define SERIAL_UART_UBRR (F_CPU / (16UL * SERIAL_UART_BAUD) - 1)
-#define SERIAL_UART_TXD_READY (UCSR1A & _BV(UDRE1))
-#define SERIAL_UART_RXD_PRESENT (UCSR1A & _BV(RXC1))
-#define SERIAL_UART_INIT() do { \
-    	/* baud rate */ \
-    	UBRR1L = SERIAL_UART_UBRR; \
-    	/* baud rate */ \
-    	UBRR1H = SERIAL_UART_UBRR >> 8; \
-    	/* enable TX and RX */ \
-    	UCSR1B = _BV(TXEN1) | _BV(RXEN1); \
-    	/* 8-bit data */ \
-    	UCSR1C = _BV(UCSZ11) | _BV(UCSZ10); \
-  	} while(0)

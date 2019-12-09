@@ -96,11 +96,11 @@ uint8_t matrix_cols(void) {
 
 void matrix_init(void) {
     matrix_init_quantum();
+    i2c_init();
 }
 
 uint8_t matrix_scan(void)
 {
-    i2c_init();
     uint8_t result = i2c_receive(I2C_ADDR_READ, (uint8_t*) data, MATRIX_ROWS + 1, I2C_TIMEOUT);
 
     //xprintf("scan result = %u : %u %u %u %u %u %u %u : %u \n", result,
