@@ -21,7 +21,6 @@ enum custom_keycodes { KC_STAB = SAFE_RANGE };
 
 
 #define LAYER_BASE 0
-#define LAYER_COLEMAK 1
 
 #define LAYER_NAV 3
 #define LAYER_SYM 4
@@ -45,52 +44,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ENT, KC_SPC, MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
-    [LAYER_COLEMAK] = LAYOUT(
-      _______, KC_Q, KC_W, KC_F, KC_P, KC_B, _______,
-      _______, KC_A, KC_R, KC_S, KC_T, KC_G, _______,
-      _______, KC_Z, KC_X, KC_C, KC_D, KC_V, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-
-      _______, KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, _______,
-      _______, KC_M, KC_N, KC_E, KC_I, KC_O, _______,
-      _______, KC_K, KC_H, KC_COMMA, KC_DOT, KC_SLASH, _______,
-      _______, _______, _______, _______, _______, _______, _______
-    ),
-
     [LAYER_SYM] = LAYOUT(
-      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
-      KC_TILDE, KC_CIRCUMFLEX, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
+      _______, KC_CIRCUMFLEX, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
       _______, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_HASH, _______,
-      _______, _______, _______, _______, KC_ESC, KC_TAB, S(KC_TAB),
+      _______, _______, _______, _______, S(KC_TAB), KC_TAB, KC_SPC,
 
-      _______, _______, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_PLUS, KC_KP_MINUS,
-      _______, KC_PLUS, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_ASTERISK, KC_EQUAL,
-      _______, _______, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_SLASH, _______,
+      _______, KC_TILDE, KC_KP_7, KC_KP_8, KC_KP_9, KC_PLUS, KC_EQUAL,
+      _______, KC_KP_MINUS, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_ASTERISK, KC_GRAVE,
+      _______, KC_KP_PLUS, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_SLASH, KC_COMMA,
       KC_KP_ENTER, KC_KP_0, KC_KP_DOT, _______, _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      KC_DEL, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_ESC, _______,
+      KC_DEL, KC_ESC, C(KC_LEFT), KC_UP, C(KC_RIGHT), _______, _______,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      _______, KC_ENT, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, KC_ENT, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
-
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, KC_RCTL, KC_RSFT, KC_RALT, KC_RWIN, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______
+      _______, C(KC_X), C(KC_C), C(KC_V), C(KC_Z), S(C(KC_Z)), _______,
+      _______, KC_HOME, KC_BSPC, KC_DEL, _______, KC_RWIN, _______,
+      _______, _______, KC_END, KC_RCTL, KC_RALT, KC_RSFT, _______,
+      _______, _______, KC_TAB, _______, _______, _______, _______
     ),
 
     [LAYER_TAB] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______, _______,
-      S(KC_TAB), _______, _______, _______, _______, _______, _______,
+      KC_LSFT, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, KC_LALT,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -102,20 +88,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, KC_LALT,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
 
     [LAYER_FN] = LAYOUT(
-      _______, _______, _______, _______, _______, TG(LAYER_COLEMAK), _______,
+      _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, TG(LAYER_GAME), _______,
       _______, _______, _______, _______, _______, KC_NLCK, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
 
       _______, KC_F10, KC_F7, KC_F8, KC_F9, _______, _______,
-      _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_LALT, _______,
+      _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_LALT, KC_LGUI,
       _______, KC_F12, KC_F1, KC_F2, KC_F3, KC_LCTL, KC_LSFT,
       _______, _______, _______, _______, _______, _______, _______
     ),
@@ -133,15 +119,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_LAST] = LAYOUT(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
 
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______
     )
 };
 
