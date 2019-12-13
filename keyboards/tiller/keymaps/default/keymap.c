@@ -34,20 +34,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
       KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
-      LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
-      LT(LAYER_SYM, KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      LT(LAYER_SYM, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
+      LT(LAYER_NAV, KC_ESC), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LM(LAYER_TAB, MOD_LALT), LM(LAYER_SFT, MOD_LSFT), LM(LAYER_TAB, MOD_LCTL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
-      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, LT(LAYER_NAV, KC_QUOTE),
-      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, LT(LAYER_SYM, KC_DEL),
+      XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, LT(LAYER_SYM, KC_QUOTE),
+      XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, LT(LAYER_NAV, KC_DEL),
       KC_ENT, KC_SPC, MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_DEL, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
-      KC_LGUI, KC_CIRCUMFLEX, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
-      _______, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_HASH, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
+      KC_TAB, KC_CIRCUMFLEX, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
+      KC_ESC, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_HASH, _______,
       _______, _______, _______, _______, _______, KC_SPC, _______,
 
       _______, KC_TILDE, KC_KP_7, KC_KP_8, KC_KP_9, KC_PLUS, KC_EQUAL,
@@ -57,8 +57,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, _______,
-      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      KC_DEL, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, _______,
+      KC_LGUI, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       _______, _______, _______, _______, KC_ENT, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_TAB] = LAYOUT( // include zxcv so nav layer can easily copy/paste
       _______, _______, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______, _______,
-      KC_LSFT, KC_Z, KC_X, KC_C, KC_V, _______, _______,
+      KC_STAB, KC_Z, KC_X, KC_C, KC_V, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
@@ -131,13 +131,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+static uint16_t last_keycode = -1;
+static uint16_t stab_timer = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  bool interrupted = last_keycode != keycode;
+  if (record->event.pressed) {
+    last_keycode = keycode;
+  }
   if (!host_keyboard_led_state().num_lock) {
     tap_code(KC_NLCK);
   }
   switch (keycode) {
-    // case KC_STAB:
-    //  return false;
+    case KC_STAB:
+      if (record->event.pressed) {
+        stab_timer = timer_read();
+        register_code(KC_LSFT);
+      } else {
+        if (timer_elapsed(stab_timer) < TAPPING_TERM && !interrupted) {
+          tap_code(KC_TAB);
+        }
+        unregister_code(KC_LSFT);
+      }
+      return false;
   }
   return true;
 }
