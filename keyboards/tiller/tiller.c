@@ -27,11 +27,6 @@ void matrix_init_kb(void) {
   matrix_init_user();
   TXLED0;
   RXLED0;
-
-  setPinOutput(B4);
-  writePinLow(B4);
-  setPinInputHigh(F6);
-  setPinInputHigh(F7);
 }
 
 void matrix_scan_kb(void) {
