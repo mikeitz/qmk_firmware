@@ -22,12 +22,13 @@ enum custom_keycodes { KC_STAB = SAFE_RANGE };
 
 #define LAYER_BASE 0
 
-#define LAYER_NAV 3
-#define LAYER_SYM 4
+#define LAYER_SYM 3
+#define LAYER_NAV 4
 #define LAYER_FN 5
-#define LAYER_CTLALT 13
-#define LAYER_SFT 14
-#define LAYER_GAME 15
+#define LAYER_CTLALT 12
+#define LAYER_SFT 13
+#define LAYER_GAME 14
+#define LAYER_TOP 15
 #define LAYER_LAST 16
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -48,24 +49,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
       KC_TAB, KC_CIRCUMFLEX, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
       KC_ESC, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_HASH, _______,
-      _______, _______, _______, _______, _______, KC_SPC, _______,
+      _______, _______, _______, _______, S(KC_TAB), KC_TAB, MO(LAYER_NAV),
 
-      _______, KC_TILDE, KC_KP_7, KC_KP_8, KC_KP_9, KC_PLUS, KC_EQUAL,
+      _______, KC_EQUAL, KC_KP_7, KC_KP_8, KC_KP_9, KC_PLUS, KC_TILDE,
       _______, KC_KP_MINUS, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_ASTERISK, KC_GRAVE,
-      _______, KC_KP_PLUS, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_SLASH, KC_COMMA,
-      KC_KP_ENTER, KC_KP_0, KC_KP_DOT, _______, _______, _______, _______
+      _______, KC_KP_PLUS, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_SLASH, KC_KP_ENTER,
+      MO(LAYER_NAV), KC_KP_0, KC_KP_DOT, _______, _______, _______, _______
       ),
 
     [LAYER_NAV] = LAYOUT(
       KC_DEL, _______, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, _______,
-      KC_LGUI, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      _______, _______, _______, _______, KC_ENT, _______, _______,
+      LM(LAYER_TOP, MOD_LGUI), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      _______, KC_LSFT, _______, _______, KC_ENT, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, KC_HOME, KC_BSPC, KC_DEL, KC_END, KC_RWIN, _______,
       _______, _______, _______, KC_RCTL, KC_RALT, KC_RSFT, _______,
-      _______, _______, KC_TAB, _______, _______, _______, _______
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
@@ -116,6 +117,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, MO(LAYER_SYM),
       _______, MO(LAYER_NAV), _______, _______, _______, _______, _______
+    ),
+
+    [LAYER_TOP] = LAYOUT(
+      KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, _______,
+      KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, _______,
+      KC_ESC, KC_Z, KC_X, KC_C, KC_V, KC_B, _______,
+      _______, _______, _______, _______, _______, _______, _______,
+
+      _______, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
+      _______, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
+      _______, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_DEL,
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_LAST] = LAYOUT(
