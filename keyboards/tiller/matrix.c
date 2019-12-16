@@ -28,6 +28,7 @@
 #include "quantum.h"
 #include "i2c_master.h"
 #include "pro_micro.h"
+#include "qmk_midi.h"
 
 #if (MATRIX_COLS <= 8)
 #    define print_matrix_header()  print("\nr/c 01234567\n")
@@ -46,15 +47,17 @@
 #    define ROW_SHIFTER  ((uint32_t)1)
 #endif
 
+#define CC_COUNT 4
+
 /* matrix state(1:on, 0:off) */
 static matrix_row_t matrix[MATRIX_ROWS];
-static uint8_t data[MATRIX_ROWS + 1];
+static uint8_t data[MATRIX_ROWS + 1 + CC_COUNT];
+static uint8_t last_cc[CC_COUNT] = {0, 0, 0, 0};
 
 #define I2C_TIMEOUT 1000
 #define I2C_ADDR        2
 #define I2C_ADDR_WRITE  ( (I2C_ADDR<<1) | I2C_WRITE )
 #define I2C_ADDR_READ   ( (I2C_ADDR<<1) | I2C_READ  )
-
 
 __attribute__ ((weak))
 void matrix_init_quantum(void) {
@@ -99,12 +102,27 @@ void matrix_init(void) {
     i2c_init();
 }
 
+void maybe_send_cc(uint8_t cc_byte, uint8_t cc_num) {
+  uint8_t val = data[MATRIX_ROWS + 1 + cc_byte];
+  if (val != last_cc[cc_byte]) {
+    last_cc[cc_byte] = val;
+    midi_send_cc(&midi_device, 0, cc_num, val);
+  }
+}
+
 uint8_t matrix_scan(void)
 {
-    uint8_t result = i2c_receive(I2C_ADDR_READ, (uint8_t*) data, MATRIX_ROWS + 1, I2C_TIMEOUT);
+    uint8_t result = i2c_receive(I2C_ADDR_READ, (uint8_t*) data, MATRIX_ROWS + 1 + CC_COUNT, I2C_TIMEOUT);
 
-    //xprintf("scan result = %u : %u %u %u %u %u %u %u : %u \n", result,
-    //  data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+    /*xprintf("scan result = %u : %u %u %u %u \n", result,
+      data[MATRIX_ROWS + 1],
+      data[MATRIX_ROWS + 2],
+      data[MATRIX_ROWS + 3],
+      data[MATRIX_ROWS + 4]);*/
+    maybe_send_cc(0, 21);
+    maybe_send_cc(1, 1);
+    maybe_send_cc(2, 21);
+    maybe_send_cc(3, 1);
 
     if (result == 0 && data[MATRIX_ROWS] == 0x55) {
       for (int r = 0; r < MATRIX_ROWS; ++r) {
