@@ -121,8 +121,8 @@ uint8_t matrix_scan(void)
       data[MATRIX_ROWS + 4]);*/
     maybe_send_cc(0, 21);
     maybe_send_cc(1, 1);
-    maybe_send_cc(2, 21);
-    maybe_send_cc(3, 1);
+    maybe_send_cc(2, 1);
+    maybe_send_cc(3, 21);
 
     if (result == 0 && data[MATRIX_ROWS] == 0x55) {
       for (int r = 0; r < MATRIX_ROWS; ++r) {
