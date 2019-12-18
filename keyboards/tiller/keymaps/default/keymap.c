@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
       KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
       KC_GRAVE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______, _______,
-      _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),
+      _______, _______, _______, _______, S(KC_TAB), KC_BSPC, KC_TAB,
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
       _______, KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
@@ -59,14 +59,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_NAV] = LAYOUT(
       _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
-      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      KC_BSPC, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       LM(LAYER_TOP, MOD_LGUI), _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),    
 
-      _______, KC_PGUP, S(KC_TAB), KC_TAB, _______, _______, _______,
-      _______, KC_PGDN, KC_BSPC, KC_DEL, KC_RSFT, KC_RCTL, _______,
-      _______, _______, KC_HOME, KC_END, KC_RGUI, KC_RALT, KC_APP,
-      KC_ENT, KC_SPC, _______, _______, _______, _______, _______
+      _______, _______, S(KC_TAB), KC_TAB, _______, _______, _______,
+      _______, KC_PGUP, KC_BSPC, KC_DEL, KC_RSFT, KC_RCTL, KC_DEL,
+      _______, KC_PGDN, KC_HOME, KC_END, KC_RGUI, KC_RALT, KC_APP,
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_DEL), _______, _______, _______, _______
     ),
 
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
