@@ -30,9 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* key matrix size */
 #define MATRIX_ROWS 8
 #define MATRIX_COLS 7
-
-#define TAPPING_TERM 200
-#define QMK_KEYS_PER_SCAN 4
+#define TAPPING_TERM 150
+// #define QMK_KEYS_PER_SCAN 4
+#define TAPPING_FORCE_HOLD
+#define PERMISSIVE_HOLD
 
 /*
  * Keyboard Matrix Assignments

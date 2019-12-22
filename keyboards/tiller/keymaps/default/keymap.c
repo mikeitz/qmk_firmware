@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, S(KC_TAB), KC_TAB, _______, _______, KC_DEL,
       _______, KC_PGUP, KC_BSPC, KC_DEL, KC_RSFT, KC_RCTL, _______,
       _______, KC_PGDN, KC_HOME, KC_END, KC_RGUI, KC_RALT, KC_APP,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_TAB), _______, _______, _______, _______
     ),
 
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, SFT_T(KC_SPC), _______, _______, _______, _______, _______
+      _______, RSFT_T(KC_SPC), _______, _______, _______, _______, _______
     ),
 
     [LAYER_SFT] = LAYOUT(
