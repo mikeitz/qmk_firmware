@@ -17,7 +17,7 @@
 
 // -path:keyboards -path:users -path:layouts -path:docs
 
-enum custom_keycodes { KC_STAB = SAFE_RANGE };
+enum custom_keycodes { KC_STAB = SAFE_RANGE, KC_UNSFT_TAB };
 
 
 #define LAYER_BASE 0
@@ -28,7 +28,6 @@ enum custom_keycodes { KC_STAB = SAFE_RANGE };
 #define LAYER_CTLALT 12
 #define LAYER_SFT 13
 #define LAYER_GAME 14
-#define LAYER_TOP 15
 #define LAYER_LAST 16
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -36,13 +35,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_BASE] = LAYOUT(
       KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
-      KC_TAB, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
+      KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LM(LAYER_CTLALT, MOD_LALT), LM(LAYER_SFT, MOD_LSFT), LM(LAYER_CTLALT, MOD_LCTL),
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_EQUAL,
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), LT(LAYER_FN, KC_TAB), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_SYM] = LAYOUT(
@@ -60,13 +59,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
       LCTL_T(KC_ESC), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      LM(LAYER_TOP, MOD_LGUI), _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, KC_PGUP, KC_BSPC, KC_DEL, KC_HOME, KC_END, _______,
       _______, KC_PGDN, S(KC_TAB), KC_TAB, _______, _______, _______,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_TAB), _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
     ),
 
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
@@ -83,8 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SFT] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______,
-      CTL_T(KC_ESC), _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      KC_UNSFT_TAB /*ctl_t tab*/, _______, _______, _______, _______, _______, _______,
+      KC_TAB /*s tab*/, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
@@ -119,18 +118,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, MO(LAYER_NAV), _______, _______, _______, _______, _______
     ),
 
-    [LAYER_TOP] = LAYOUT(
-      KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, _______,
-      KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, _______,
-      KC_ESC, KC_Z, KC_X, KC_C, KC_V, KC_B, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-
-      _______, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
-      _______, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      _______, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_DEL,
-      _______, _______, _______, _______, _______, _______, _______
-    ),
-
     [LAYER_LAST] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
@@ -146,6 +133,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 static uint16_t last_keycode = -1;
 static uint16_t stab_timer = 0;
+static uint16_t unsft_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   bool interrupted = last_keycode != keycode;
@@ -156,7 +144,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_code(KC_NLCK);
   }
   switch (keycode) {
-    case KC_STAB:
+    case KC_STAB: 
       if (record->event.pressed) {
         stab_timer = timer_read();
         register_code(KC_LSFT);
@@ -165,6 +153,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           tap_code(KC_TAB);
         }
         unregister_code(KC_LSFT);
+      }
+      return false;
+    case KC_UNSFT_TAB:
+      if (record->event.pressed) {
+        unsft_timer = timer_read();
+        register_code(KC_LCTL);
+      } else {
+        unregister_code(KC_LCTL);
+        if (timer_elapsed(unsft_timer) < TAPPING_TERM && !interrupted) {
+          bool sfted = get_mods() & MOD_LSFT;
+          if (sfted) {
+            unregister_code(KC_LSFT);
+          }
+          tap_code(KC_TAB);
+          if (sfted) {
+            register_code(KC_LSFT);
+          }       
+        }
       }
       return false;
   }
