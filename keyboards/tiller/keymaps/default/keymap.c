@@ -136,15 +136,24 @@ static uint16_t stab_timer = 0;
 static uint16_t unsft_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  bool interrupted = last_keycode != keycode;
-  if (record->event.pressed) {
-    last_keycode = keycode;
-  }
   if (!host_keyboard_led_state().num_lock) {
     tap_code(KC_NLCK);
   }
+
+  bool interrupted = last_keycode != keycode;
+
+  if (record->event.pressed) {
+    if (interrupted && last_keycode == KC_UNSFT_TAB) {
+      register_code(KC_LCTL);
+    }
+    last_keycode = keycode;
+  } else if (keycode == last_keycode) {
+    last_keycode = -1;
+  }
+
   switch (keycode) {
-    case KC_STAB: 
+
+    case KC_STAB:
       if (record->event.pressed) {
         stab_timer = timer_read();
         register_code(KC_LSFT);
@@ -155,13 +164,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_LSFT);
       }
       return false;
+
     case KC_UNSFT_TAB:
       if (record->event.pressed) {
         unsft_timer = timer_read();
-        register_code(KC_LCTL);
+        // will register control before the next keypress when interrupted
       } else {
-        unregister_code(KC_LCTL);
-        if (timer_elapsed(unsft_timer) < TAPPING_TERM && !interrupted) {
+        if (interrupted) {
+          unregister_code(KC_LCTL);
+        } else if (timer_elapsed(unsft_timer) < TAPPING_TERM) {
           bool sfted = get_mods() & MOD_LSFT;
           if (sfted) {
             unregister_code(KC_LSFT);
@@ -173,8 +184,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       return false;
+
+    default:
+      return true;
+
   }
-  return true;
 }
 
 void matrix_init_user(void) {}
