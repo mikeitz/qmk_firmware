@@ -61,11 +61,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
       LCTL_T(KC_ESC), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       LM(LAYER_TOP, MOD_LGUI), _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),    
+      _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),
 
-      _______, _______, S(KC_TAB), KC_TAB, _______, _______, KC_DEL,
-      _______, KC_PGUP, KC_BSPC, KC_DEL, KC_RSFT, KC_RCTL, _______,
-      _______, KC_PGDN, KC_HOME, KC_END, KC_RGUI, KC_RALT, KC_APP,
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, KC_PGUP, KC_BSPC, KC_DEL, KC_HOME, KC_END, _______,
+      _______, KC_PGDN, S(KC_TAB), KC_TAB, _______, _______, _______,
       RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_TAB), _______, _______, _______, _______
     ),
 
@@ -96,14 +96,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_FN] = LAYOUT(
       KC_PAUS, KC_INS, _______, _______, _______, _______, _______,
-      KC_CLCK, _______, _______, _______, _______, TG(LAYER_GAME), _______,
+      KC_CLCK, KC_APP, _______, _______, _______, TG(LAYER_GAME), _______,
       KC_NLCK, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
 
       _______, KC_F10, KC_F7, KC_F8, KC_F9, KC_PSCR, KC_SLCK,
-      _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_RSFT, KC_RCTL,
-      _______, KC_F12, KC_F1, KC_F2, KC_F3, KC_RGUI, KC_RALT,
+      _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_RCTL, KC_RALT,
+      _______, KC_F12, KC_F1, KC_F2, KC_F3, KC_RSFT, KC_RGUI,
       _______, _______, _______, _______, _______, _______, _______
     ),
 
