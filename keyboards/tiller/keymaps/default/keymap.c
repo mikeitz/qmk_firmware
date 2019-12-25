@@ -17,7 +17,7 @@
 
 // -path:keyboards -path:users -path:layouts -path:docs
 
-enum custom_keycodes { KC_STAB = SAFE_RANGE, KC_UNSFT_TAB };
+enum custom_keycodes { KC_STAB = SAFE_RANGE, KC_UNSFT_TAB, KC_16, KC_27, KC_38, KC_49, KC_50 };
 
 
 #define LAYER_BASE 0
@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
       LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      S(KC_TAB), _______, _______, _______, _______, _______, _______,
+      S(KC_TAB), KC_50, KC_49, KC_38, KC_27, KC_16, _______,
       _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),
 
       _______, _______, _______, _______, _______, _______, _______,
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
       _______, _______, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______, _______,
-      KC_STAB, _______, _______, _______, _______, _______, _______,
+      KC_STAB, KC_Z, KC_X, KC_C, KC_V, KC_B, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
@@ -135,6 +135,11 @@ static uint16_t last_keycode = -1;
 static uint16_t stab_timer = 0;
 static uint16_t unsft_timer = 0;
 
+static const uint8_t digits[] = {
+  KC_1, KC_2, KC_3, KC_4, KC_5,
+  KC_6, KC_7, KC_8, KC_9, KC_0
+};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
     tap_code(KC_NLCK);
@@ -184,7 +189,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       return false;
-
+    case KC_16 ... KC_50:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_LSFT) {
+          unregister_code(KC_LSFT);
+          tap_code(digits[keycode - KC_16 + 5]);
+          register_code(KC_LSFT);
+        } else {
+          tap_code(digits[keycode - KC_16]);
+        }
+      }
+      return false;
     default:
       return true;
 
