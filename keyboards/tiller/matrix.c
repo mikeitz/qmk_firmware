@@ -24,6 +24,7 @@
 #include "util.h"
 #include "matrix.h"
 #include "timer.h"
+#include "math.h"
 
 #include "quantum.h"
 #include "i2c_master.h"
@@ -47,18 +48,18 @@
 #    define ROW_SHIFTER  ((uint32_t)1)
 #endif
 
-#define CC_COUNT 4
+#define CC_COUNT 0
 
 /* matrix state(1:on, 0:off) */
 static matrix_row_t matrix[MATRIX_ROWS];
 struct host_packet_t {
   uint8_t matrix[MATRIX_ROWS];
-  uint8_t cc[0];
-  uint16_t midi_note;
+  uint8_t cc[CC_COUNT];
+  uint32_t midi_note;
   uint8_t check_byte;
 };
 static struct host_packet_t data;
-static uint8_t last_cc[CC_COUNT] = {0, 0, 0, 0};
+static uint8_t last_cc[CC_COUNT] = {};
 
 #define I2C_TIMEOUT 1000
 #define I2C_ADDR        2
@@ -116,19 +117,27 @@ static inline void maybe_send_cc(uint8_t cc_byte, uint8_t cc_num) {
   }
 }
 
+#define VMIN 3000
+#define VMAX 50000
+
+inline uint8_t vel(int32_t t) {
+  t *= 100; // t is 0.1 ms, convert to us.
+  t = (t - VMIN) * 127 / VMAX;
+  t = 127 - t;
+  if (t < 1) return 1;
+  if (t > 127) return 127;
+  return t;
+}
+
 uint8_t matrix_scan(void)
 {
     uint8_t result = i2c_receive(I2C_ADDR_READ, (uint8_t*) &data, sizeof(struct host_packet_t), I2C_TIMEOUT);
 
-    //maybe_send_cc(0, 21);
-    //maybe_send_cc(1, 1);
-    //maybe_send_cc(2, 1);
-    //maybe_send_cc(3, 21);
     if (data.midi_note) {
-      if (data.midi_note & 0x80) {
-        midi_send_noteon(&midi_device, 0, (data.midi_note >> 8) & 0x7f, data.midi_note & 0x7f);
+      if (data.midi_note & 0x010000) {
+        midi_send_noteon(&midi_device, 0, (data.midi_note >> 24) & 0x7f, vel(data.midi_note & 0xffff));
       } else {
-        midi_send_noteoff(&midi_device, 0, (data.midi_note >> 8) & 0x7f, data.midi_note & 0x7f);
+        midi_send_noteoff(&midi_device, 0, (data.midi_note >> 24) & 0x7f, vel(data.midi_note & 0xffff));
       }
     }
 
