@@ -62,7 +62,8 @@ static struct host_packet_t data;
 #define I2C_ADDR_WRITE  ( (I2C_ADDR<<1) | I2C_WRITE )
 #define I2C_ADDR_READ   ( (I2C_ADDR<<1) | I2C_READ  )
 
-const uint8_t cc_map[] = {1, 21, 1, 21};
+const uint8_t cc_map[] = {1, 21, 21, 1};
+const bool cc_invert[] = {false, false, true, true};
 
 __attribute__ ((weak))
 void matrix_init_quantum(void) {
@@ -133,7 +134,11 @@ static inline void handle_midi(uint32_t midi_note) {
       midi_send_noteoff(&midi_device, ch, data1, vel(data2));
       return;
     case 3:
-      midi_send_cc(&midi_device, ch, cc_map[data1], data2 & 0x7f);
+      if (cc_invert[data1]) {
+        midi_send_cc(&midi_device, ch, cc_map[data1], 127 - (data2 & 0x7f));
+      } else {
+        midi_send_cc(&midi_device, ch, cc_map[data1], data2 & 0x7f);
+      }
       return;
     default:
       return;
