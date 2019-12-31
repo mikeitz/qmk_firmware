@@ -45,3 +45,12 @@
 	{ k60, k61, k62, k63, k64, k65, k66 }, \
 	{ k70, k71, k72, k73, k74, k75, k76 }, \
 }
+
+// Called by the matrix.
+void tiller_handle_midi(uint32_t midi_note);
+
+// Usable by the keymap.
+void tiller_all_notes_off(void);
+uint8_t tiller_set_octave(uint8_t new_octave);
+uint8_t tiller_set_channel(uint8_t new_channel);
+void tiller_set_cc_follows_channel(bool val);

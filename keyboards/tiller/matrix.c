@@ -29,7 +29,7 @@
 #include "quantum.h"
 #include "i2c_master.h"
 #include "pro_micro.h"
-#include "qmk_midi.h"
+#include "tiller.h"
 
 #if (MATRIX_COLS <= 8)
 #    define print_matrix_header()  print("\nr/c 01234567\n")
@@ -61,9 +61,6 @@ static struct host_packet_t data;
 #define I2C_ADDR        2
 #define I2C_ADDR_WRITE  ( (I2C_ADDR<<1) | I2C_WRITE )
 #define I2C_ADDR_READ   ( (I2C_ADDR<<1) | I2C_READ  )
-
-const uint8_t cc_map[] = {1, 21, 21, 1};
-const bool cc_invert[] = {false, false, true, true};
 
 __attribute__ ((weak))
 void matrix_init_quantum(void) {
@@ -108,49 +105,12 @@ void matrix_init(void) {
     i2c_init();
 }
 
-#define VMIN 3000
-#define VMAX 50000
-
-static inline uint8_t vel(int32_t t) {
-  t *= 100; // t is 0.1 ms, convert to us.
-  t = (t - VMIN) * 127 / VMAX;
-  t = 127 - t;
-  if (t < 1) return 1;
-  if (t > 127) return 127;
-  return t;
-}
-
-static inline void handle_midi(uint32_t midi_note) {
-  uint8_t op = (midi_note >> 28) & 0xf;
-  uint8_t data1 = (data.midi_note >> 16) & 0x7f;
-  uint16_t data2 = data.midi_note & 0xffff;
-  uint8_t ch = (midi_note >> 24) & 0xf;
-  // bool unused = data.midi_note & 0x8000; 
-  switch (op) {
-    case 1:
-      midi_send_noteon(&midi_device, ch, data1, vel(data2));
-      return;
-    case 2:
-      midi_send_noteoff(&midi_device, ch, data1, vel(data2));
-      return;
-    case 3:
-      if (cc_invert[data1]) {
-        midi_send_cc(&midi_device, ch, cc_map[data1], 127 - (data2 & 0x7f));
-      } else {
-        midi_send_cc(&midi_device, ch, cc_map[data1], data2 & 0x7f);
-      }
-      return;
-    default:
-      return;
-  }
-}
-
 uint8_t matrix_scan(void)
 {
     uint8_t result = i2c_receive(I2C_ADDR_READ, (uint8_t*) &data, sizeof(struct host_packet_t), I2C_TIMEOUT);
 
     if (data.midi_note) {
-      handle_midi(data.midi_note);
+      tiller_handle_midi(data.midi_note);
     }
 
     if (result == 0 && data.check_byte == 0x55) {
