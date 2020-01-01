@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include "tiller.h"
+#include "qmk_midi.h"
 
 // -path:keyboards -path:users -path:layouts -path:docs
 
@@ -24,9 +25,10 @@ enum custom_keycodes {
   KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
   KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3,
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
-  KC_CH_8, KC_CH_9, KC_CH_10, KC_CH_11,
-  KC_CH_12, KC_CH_13, KC_CH_14, KC_CH_15,
-  KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF,
+  KC_KS_0, KC_KS_1, KC_KS_2, KC_KS_3, KC_KS_4,
+  KC_KS_5, KC_KS_6, KC_KS_7, KC_KS_8, KC_KS_9,
+  KC_KS_10, KC_KS_11, KC_KS_12, KC_KS_13, KC_KS_14,
+  KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
 };
 
@@ -106,14 +108,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_MUS] = LAYOUT(
       KC_ALL_OFF, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON, _______,
+      _______, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, KC_CC_FOLLOW_OFF, _______,
+      _______, _______, _______, _______, KC_STOP, KC_LSFT, KC_REC,
 
-      _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CH_4, KC_CH_5,
-      _______, KC_CH_6, KC_CH_7, KC_CH_8, KC_CH_9, KC_CH_10, KC_CH_11,
-      _______, KC_CH_12, KC_CH_13, KC_CH_14, KC_CH_15, KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF,
-      _______, _______, _______, _______, _______, _______, _______
+      _______, KC_KS_0, KC_KS_1, KC_KS_2, KC_KS_3, KC_KS_4, _______,
+      _______, KC_KS_5, KC_KS_6, KC_KS_7, KC_KS_8, KC_KS_9, _______,
+      _______, KC_KS_10, KC_KS_11, KC_KS_12, KC_KS_13, KC_KS_14, _______,
+      _______, KC_LSFT, _______, _______, _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
@@ -225,23 +227,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
 
     case KC_OCT_0 ... KC_OCT_4:
-      tiller_set_octave(keycode - KC_OCT_0);
+      if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
       return false;
 
-    case KC_CH_0 ... KC_CH_15:
-      tiller_set_channel(keycode - KC_CH_0);
+    case KC_CH_0 ... KC_CH_7:
+      if (record->event.pressed) {
+        uint8_t ch = keycode - KC_CH_0 + ((get_mods() & MOD_LSFT) ? 8 : 0);
+        tiller_set_channel(ch);
+        midi_send_cc(&midi_device, 15, 101 + ch, 127);
+      }
+      return false;
+
+    case KC_KS_0 ... KC_KS_14:
+      if (record->event.pressed) {
+        uint8_t ks = keycode - KC_KS_0 + ((get_mods() & MOD_LSFT) ? 15 : 0);
+        // midi_send_noteon(&midi_device, 0, ks, 127);
+        // midi_send_noteoff(&midi_device, 0, ks, 127);
+        midi_send_programchange(&midi_device, 0, ks);
+      }
+      return false;
+
+    case KC_STOP:
+      if (record->event.pressed) midi_send_cc(&midi_device, 14, 102, 127);
+      return false;
+
+    case KC_REC:
+      if (record->event.pressed) midi_send_cc(&midi_device, 14, 101, 127);
       return false;
 
     case KC_ALL_OFF:
-      tiller_all_notes_off();
+      if (record->event.pressed) tiller_all_notes_off();
       return false;
 
     case KC_CC_FOLLOW_OFF:
-      tiller_set_cc_follows_channel(false);
+      if (record->event.pressed) tiller_set_cc_follows_channel(false);
       return false;
 
     case KC_CC_FOLLOW_ON:
-      tiller_set_cc_follows_channel(true);
+      if (record->event.pressed) tiller_set_cc_follows_channel(true);
       return false;
 
     default:

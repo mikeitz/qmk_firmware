@@ -26,7 +26,7 @@ static uint8_t midi_octave = 2;
 static uint8_t midi_channel = 0;
 static uint8_t notestat[127] = {0};
 static uint8_t chstat[127] = {0xff};
-static bool cc_follows_channel = true;
+static bool cc_follows_channel = false;
 
 static inline uint8_t vel(int32_t t) {
   t *= 100; // t is 0.1 ms, convert to us.
