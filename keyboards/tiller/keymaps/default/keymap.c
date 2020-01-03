@@ -42,7 +42,6 @@ enum custom_keycodes {
 #define LAYER_SFT 13
 #define LAYER_GAME 14
 #define LAYER_MUS 15
-#define LAYER_LAST 16
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -62,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
       KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
       KC_GRAVE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, C(KC_BSPC), C(KC_DEL),
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
       _______, KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
@@ -79,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, KC_PGUP, KC_BSPC, KC_DEL, KC_HOME, KC_END, _______,
       _______, KC_PGDN, S(KC_TAB), KC_TAB, _______, _______, _______,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_DEL), _______, _______, _______, _______
     ),
 
     [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
@@ -91,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, RSFT_T(KC_SPC), _______, _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
     ),
 
     [LAYER_SFT] = LAYOUT(
@@ -103,26 +102,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
     ),
 
     [LAYER_MUS] = LAYOUT(
       KC_ALL_OFF, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4, _______,
-      _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON, _______,
-      _______, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, KC_CC_FOLLOW_OFF, _______,
-      _______, _______, _______, _______, KC_STOP, KC_LSFT, KC_REC,
-
       _______, KC_KS_0, KC_KS_1, KC_KS_2, KC_KS_3, KC_KS_4, _______,
       _______, KC_KS_5, KC_KS_6, KC_KS_7, KC_KS_8, KC_KS_9, _______,
-      _______, KC_KS_10, KC_KS_11, KC_KS_12, KC_KS_13, KC_KS_14, _______,
+      _______, _______, _______, _______, KC_STOP, KC_LSFT, KC_REC,
+
+      _______, _______, _______, _______, _______, _______, _______,
+      _______, KC_CC_FOLLOW_ON, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, _______,
+      _______, KC_CC_FOLLOW_OFF, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, _______,
       _______, KC_LSFT, _______, _______, _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
-      KC_PAUS, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4, _______,
-      KC_CLCK, KC_APP, KC_INS, _______, _______, TG(LAYER_GAME), _______,
+      KC_PAUS, KC_INS, _______, _______, _______, _______, _______,
+      KC_CLCK, KC_APP, _______, _______, _______, TG(LAYER_GAME), _______,
       KC_NLCK, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, KC_ALL_OFF,
+      _______, _______, _______, _______, _______, _______, _______,
 
       _______, KC_F10, KC_F7, KC_F8, KC_F9, KC_PSCR, KC_SLCK,
       _______, KC_F11, KC_F4, KC_F5, KC_F6, KC_RCTL, KC_RALT,
@@ -140,18 +139,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, MO(LAYER_SYM),
       _______, MO(LAYER_NAV), _______, _______, _______, _______, _______
-    ),
-
-    [LAYER_LAST] = LAYOUT(
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______
     )
 };
 
@@ -240,10 +227,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_KS_0 ... KC_KS_14:
       if (record->event.pressed) {
-        uint8_t ks = keycode - KC_KS_0 + ((get_mods() & MOD_LSFT) ? 15 : 0);
-        // midi_send_noteon(&midi_device, 0, ks, 127);
-        // midi_send_noteoff(&midi_device, 0, ks, 127);
-        midi_send_programchange(&midi_device, 0, ks);
+        midi_send_noteon(&midi_device, 0, keycode - KC_KS_0, 127);
+      } else {
+        midi_send_noteoff(&midi_device, 0, keycode - KC_KS_0, 127);
       }
       return false;
 
