@@ -143,6 +143,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #define RETRO_TERM 500
+#define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
+#define RETRO_SET retro_timer = record->event.time
 
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
@@ -172,26 +174,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case LT(LAYER_SYM, KC_SPC):
       if (record->event.pressed) {
-        retro_timer = timer_read();
-      } else if (!interrupted && timer_elapsed(retro_timer) >= TAPPING_TERM && timer_elapsed(retro_timer) < RETRO_TERM) {
-        tap_code(KC_SPC);
+        RETRO_SET;
+      } else {
+        if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
+          tap_code(KC_SPC);
+        }
       }
       return true; // continue processing normally
 
     case LT(LAYER_NAV, KC_ESC):
       if (record->event.pressed) {
-        retro_timer = timer_read();
-      } else if (!interrupted && timer_elapsed(retro_timer) >= TAPPING_TERM && timer_elapsed(retro_timer) < RETRO_TERM) {
+        RETRO_SET;
+      } else if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
         tap_code(KC_ESC);
       }
       return true; // continue processing normally
 
     case KC_STAB:
       if (record->event.pressed) {
-        retro_timer = timer_read();
+        RETRO_SET;
         register_code(KC_LSFT);
       } else {
-        if (timer_elapsed(retro_timer) < TAPPING_TERM && !interrupted) {
+        if (RETRO_ELAPSED < TAPPING_TERM && !interrupted) {
           tap_code(KC_TAB);
         }
         unregister_code(KC_LSFT);
@@ -200,12 +204,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_UNSFT_TAB:
       if (record->event.pressed) {
-        retro_timer = timer_read();
+        RETRO_SET;
         // will register control before the next keypress when interrupted
       } else {
         if (interrupted) {
           unregister_code(KC_LCTL);
-        } else if (timer_elapsed(retro_timer) < TAPPING_TERM) {
+        } else if (RETRO_ELAPSED < TAPPING_TERM) {
           bool sfted = get_mods() & MOD_LSFT;
           if (sfted) {
             unregister_code(KC_LSFT);
