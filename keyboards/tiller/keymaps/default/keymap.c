@@ -142,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-#define RETRO_TERM 500
+#define RETRO_TERM 300
 #define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
 #define RETRO_SET retro_timer = record->event.time
 
