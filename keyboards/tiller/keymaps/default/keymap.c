@@ -59,9 +59,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
-      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
-      KC_GRAVE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_KP_SLASH, _______,
-      _______, _______, _______, _______, _______, C(KC_BSPC), C(KC_DEL),
+      CTL_T(KC_GRAVE), KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
+      KC_TILDE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_KP_SLASH, _______,
+      _______, _______, _______, _______, _______, KC_BSPC, KC_DEL,
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
       _______, KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
