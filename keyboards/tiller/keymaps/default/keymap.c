@@ -107,13 +107,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_MUS] = LAYOUT(
       KC_ALL_OFF, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4, _______,
-      _______, KC_KS_0, KC_KS_1, KC_KS_2, KC_KS_3, KC_KS_4, _______,
-      _______, KC_KS_5, KC_KS_6, KC_KS_7, KC_KS_8, KC_KS_9, _______,
+      _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON, _______,
+      _______, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, KC_CC_FOLLOW_OFF, _______,
+
       _______, _______, _______, _______, KC_STOP, KC_LSFT, KC_REC,
 
       _______, _______, _______, _______, _______, _______, _______,
-      _______, KC_CC_FOLLOW_ON, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, _______,
-      _______, KC_CC_FOLLOW_OFF, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, _______,
+      _______, KC_KS_0, KC_KS_1, KC_KS_2, KC_KS_3, KC_KS_4, _______,
+      _______, KC_KS_5, KC_KS_6, KC_KS_7, KC_KS_8, KC_KS_9, _______,
       _______, KC_LSFT, _______, _______, _______, _______, _______
     ),
 
