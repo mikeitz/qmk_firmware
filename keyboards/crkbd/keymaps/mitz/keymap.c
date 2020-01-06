@@ -26,10 +26,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,                      KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
-      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,                       KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
-      KC_GRAVE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______,          KC_KP_SLASH, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
+      CTL_T(KC_GRAVE), KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,                       KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
+      KC_TILDE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______,          KC_KP_SLASH, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
 
-      _______, _______, _______,
+      _______, KC_BSPC, KC_DEL,
       _______, _______, _______
     ),
 
@@ -71,14 +71,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-static uint16_t last_keycode = -1;
-static uint16_t stab_timer = 0;
-static uint16_t unsft_timer = 0;
-
 static const uint8_t digits[] = {
   KC_1, KC_2, KC_3, KC_4, KC_5,
   KC_6, KC_7, KC_8, KC_9, KC_0
 };
+
+#define RETRO_TERM 300
+#define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
+#define RETRO_SET retro_timer = record->event.time
+static uint16_t last_keycode = -1;
+static uint16_t retro_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
@@ -98,12 +100,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   switch (keycode) {
 
+    case LT(LAYER_SYM, KC_SPC):
+      if (record->event.pressed) {
+        RETRO_SET;
+      } else {
+        if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
+          tap_code(KC_SPC);
+        }
+      }
+      return true; // continue processing normally
+
+    case LT(LAYER_NAV, KC_ESC):
+      if (record->event.pressed) {
+        RETRO_SET;
+      } else if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
+        tap_code(KC_ESC);
+      }
+      return true; // continue processing normally
+
     case KC_STAB:
       if (record->event.pressed) {
-        stab_timer = timer_read();
+        RETRO_SET;
         register_code(KC_LSFT);
       } else {
-        if (timer_elapsed(stab_timer) < TAPPING_TERM && !interrupted) {
+        if (RETRO_ELAPSED < TAPPING_TERM && !interrupted) {
           tap_code(KC_TAB);
         }
         unregister_code(KC_LSFT);
@@ -112,12 +132,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_UNSFT_TAB:
       if (record->event.pressed) {
-        unsft_timer = timer_read();
+        RETRO_SET;
         // will register control before the next keypress when interrupted
       } else {
         if (interrupted) {
           unregister_code(KC_LCTL);
-        } else if (timer_elapsed(unsft_timer) < TAPPING_TERM) {
+        } else if (RETRO_ELAPSED < TAPPING_TERM) {
           bool sfted = get_mods() & MOD_LSFT;
           if (sfted) {
             unregister_code(KC_LSFT);
