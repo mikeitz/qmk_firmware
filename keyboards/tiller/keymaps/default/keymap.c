@@ -32,6 +32,11 @@ enum custom_keycodes {
   KC_ALL_OFF,
 };
 
+#define KC_NAV_ESC LT(LAYER_NAV, KC_ESC)
+#define KC_SYM_SPC LT(LAYER_SYM, KC_SPC)
+#define KC_SFT_BSPC SFT_T(KC_BSPC)
+#define KC_CTL_DEL CTL_T(KC_DEL)
+#define KC_ALT_TAB LM(LAYER_CTLALT, MOD_LALT)
 
 #define LAYER_BASE 0
 
@@ -49,48 +54,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
       MO(LAYER_MUS), KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LM(LAYER_CTLALT, MOD_LALT), LM(LAYER_SFT, MOD_LSFT), LM(LAYER_CTLALT, MOD_LCTL),
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_ALT_TAB, KC_SFT_BSPC, KC_CTL_DEL,
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       XXXXXXX, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, LT(LAYER_MUS, KC_EQUAL),
-      KC_ENT, LT(LAYER_SYM, KC_SPC), MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+      KC_ENT, KC_SYM_SPC, MO(LAYER_FN), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT, _______,
-      CTL_T(KC_GRAVE), KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
+      KC_GRAVE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR, _______,
       KC_TILDE, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, KC_KP_SLASH, _______,
-      _______, _______, _______, _______, _______, KC_BSPC, KC_DEL,
+      _______, _______, _______, _______, KC_SPC, C(KC_BSPC), C(KC_DEL),
 
       _______, KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
       _______, KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
       _______, KC_KP_SLASH, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
-      _______, _______, _______, _______, _______, _______, _______
+      _______, _______, _______, _______, _______, _______,
     ),
     
     [LAYER_NAV] = LAYOUT(
       _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), _______,
       LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       KC_LGUI, KC_50, KC_49, KC_38, KC_27, KC_16, _______,
-      _______, _______, _______, _______, ALT_T(KC_BSPC), SFT_T(KC_SPC), CTL_T(KC_ENT),
+      _______, _______, _______, _______, ALT_T(KC_ENT), SFT_T(KC_BSPC), CTL_T(KC_DEL),
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, KC_PGUP, KC_BSPC, KC_DEL, KC_HOME, KC_END, _______,
       _______, KC_PGDN, S(KC_TAB), KC_TAB, _______, _______, _______,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), RALT_T(KC_DEL), _______, _______, _______, _______
+      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
     ),
 
-    [LAYER_CTLALT] = LAYOUT( // include zxcv so nav layer can easily copy/paste
+    [LAYER_CTLALT] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______, _______,
-      KC_STAB, KC_Z, KC_X, KC_C, KC_V, KC_B, _______,
+      KC_STAB, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_SFT] = LAYOUT(
@@ -102,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______,
-      RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT, _______, _______, _______, _______
+      _______, _______, _______, _______, _______, _______, _______
     ),
 
     [LAYER_MUS] = LAYOUT(
@@ -146,6 +151,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define RETRO_TERM 300
 #define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
 #define RETRO_SET retro_timer = record->event.time
+#define RETRO_TAP(kc) \
+  if (record->event.pressed) { RETRO_SET; } \
+  else { if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) { tap_code(kc); } }
+#define ALSO_LAYER(layer) \
+  if (record->event.pressed) { layer_on(layer); } else { layer_off(layer); }
 
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
@@ -173,22 +183,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   switch (keycode) {
 
-    case LT(LAYER_SYM, KC_SPC):
-      if (record->event.pressed) {
-        RETRO_SET;
-      } else {
-        if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
-          tap_code(KC_SPC);
-        }
-      }
+    case KC_SFT_BSPC:
+      RETRO_TAP(KC_BSPC);
+      ALSO_LAYER(LAYER_SFT);
       return true; // continue processing normally
 
-    case LT(LAYER_NAV, KC_ESC):
-      if (record->event.pressed) {
-        RETRO_SET;
-      } else if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) {
-        tap_code(KC_ESC);
-      }
+    case KC_CTL_DEL:
+      RETRO_TAP(KC_DEL);
+      ALSO_LAYER(LAYER_CTLALT);
+      return true; // continue processing normally
+
+    case KC_SYM_SPC:
+      RETRO_TAP(KC_SPC);
+      return true; // continue processing normally
+
+    case KC_NAV_ESC:
+      RETRO_TAP(KC_ESC);
       return true; // continue processing normally
 
     case KC_STAB:
