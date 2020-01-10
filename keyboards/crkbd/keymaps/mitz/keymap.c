@@ -18,7 +18,7 @@ enum custom_keycodes {
 #define LAYER_FN 5
 #define LAYER_CTLALT 12
 #define LAYER_SFT 13
-#define LAYER_GUI 13
+#define LAYER_GUI 14
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
