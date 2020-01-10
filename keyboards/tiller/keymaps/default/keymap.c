@@ -39,6 +39,7 @@ enum custom_keycodes {
 #define KC_ALT_TAB LM(LAYER_CTLALT, MOD_LALT)
 
 #define LAYER_BASE 0
+#define LAYER_CM 1
 
 #define LAYER_SYM 3
 #define LAYER_NAV 4

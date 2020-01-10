@@ -5,6 +5,7 @@ enum custom_keycodes {
   KC_16, KC_27, KC_38, KC_49, KC_50
 };
 
+#define KC_NAV_ENT LT(LAYER_NAV, KC_ENT)
 #define KC_NAV_ESC LT(LAYER_NAV, KC_ESC)
 #define KC_SYM_SPC LT(LAYER_SYM, KC_SPC)
 #define KC_SFT_BSPC SFT_T(KC_BSPC)
@@ -12,6 +13,7 @@ enum custom_keycodes {
 #define KC_ALT_TAB LM(LAYER_CTLALT, MOD_LALT)
 
 #define LAYER_BASE 0
+#define LAYER_CM 1
 
 #define LAYER_SYM 3
 #define LAYER_NAV 4
@@ -28,7 +30,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LM(LAYER_GUI, MOD_LGUI), KC_Z, KC_X, KC_C, KC_V, KC_B,                        KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_EQUAL,
 
       KC_ALT_TAB, KC_SFT_BSPC, KC_CTL_DEL,
-      KC_ENT, KC_SYM_SPC, MO(LAYER_FN)
+      KC_NAV_ENT, KC_SYM_SPC, MO(LAYER_FN)
+    ),
+
+    [LAYER_CM] = LAYOUT(
+      _______, KC_Q, KC_W, KC_F, KC_P, KC_G,           KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, _______,
+      _______, KC_A, KC_R, KC_S, KC_T, KC_D,           KC_H, KC_N, KC_E, KC_I, KC_O, _______,
+      _______, KC_Z, KC_X, KC_C, KC_V, KC_B,           KC_K, KC_M, _______, _______, _______, _______,
+      _______, _______, _______,
+      _______, _______, _______
     ),
 
     [LAYER_SYM] = LAYOUT(
@@ -77,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_FN] = LAYOUT(
       KC_PAUS, KC_INS, _______, _______, _______, _______,           KC_F10, KC_F7, KC_F8, KC_F9, KC_PSCR, KC_SLCK,
-      KC_CLCK, KC_APP, _______, _______, _______, _______,             KC_F11, KC_F4, KC_F5, KC_F6, KC_RCTL, KC_RALT,
+      KC_CLCK, KC_APP, _______, _______, _______, TG(LAYER_CM),             KC_F11, KC_F4, KC_F5, KC_F6, KC_RCTL, KC_RALT,
       KC_NLCK, _______, _______, _______, _______, _______,           KC_F12, KC_F1, KC_F2, KC_F3, KC_RSFT, KC_RGUI,
 
       _______, _______, _______,
@@ -136,6 +146,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_NAV_ESC:
       RETRO_TAP(KC_ESC);
+      return true; // continue processing normally
+
+    case KC_NAV_ENT:
+      RETRO_TAP(KC_ENT);
       return true; // continue processing normally
 
     case KC_STAB:
