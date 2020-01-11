@@ -29,6 +29,9 @@ enum custom_keycodes {
   KC_ALL_OFF,
 };
 
+#define KC_SFT_BSPC SFT_T(KC_BSPC)
+#define KC_CTL_DEL CTL_T(KC_DEL)
+
 #define LAYER_BASE 0
 #define LAYER_CM 1
 
@@ -46,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_BSPC, KC_Q, KC_W, KC_E, KC_R, KC_T, XXXXXXX,
       LT(LAYER_MUS, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G, XXXXXXX,
       KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LM(LAYER_ALT, MOD_LALT), LM(LAYER_SFT, MOD_LSFT), LM(LAYER_CTL, MOD_LCTL),
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
 
       XXXXXXX, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       XXXXXXX, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
@@ -70,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, _______,
       LCTL_T(KC_TAB), KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, _______,
       S(KC_TAB), KC_F11, KC_F12, _______, KC_APP, TG(LAYER_GAME), _______,
-      _______, _______, _______, _______, KC_LALT, KC_LSFT, KC_LCTL,
+      _______, _______, _______, _______, _______, _______, _______,
 
       _______, KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, KC_DEL,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, S(KC_DEL),
@@ -181,6 +184,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case LT(LAYER_SYM, KC_SPC):
       RETRO_TAP(KC_SPC);
+      return true; // continue processing normally
+
+    case KC_SFT_BSPC:
+      RETRO_TAP(KC_BSPC);
+      ALSO_LAYER(LAYER_SFT);
+      return true; // continue processing normally
+
+    case KC_CTL_DEL:
+      RETRO_TAP(KC_DEL);
+      ALSO_LAYER(LAYER_CTL);
       return true; // continue processing normally
 
     case KC_STAB:
