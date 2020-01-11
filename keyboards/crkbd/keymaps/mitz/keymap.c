@@ -8,8 +8,8 @@ enum custom_keycodes {
 #define KC_NAV_ENT LT(LAYER_NAV, KC_ENT)
 #define KC_NAV_ESC LT(LAYER_NAV, KC_ESC)
 #define KC_SYM_SPC LT(LAYER_SYM, KC_SPC)
-#define KC_SFT_BSPC SFT_T(KC_BSPC)
-#define KC_CTL_DEL CTL_T(KC_DEL)
+//#define KC_SFT_BSPC SFT_T(KC_BSPC)
+//#define KC_CTL_DEL CTL_T(KC_DEL)
 #define KC_ALT_TAB LM(LAYER_CTLALT, MOD_LALT)
 
 #define LAYER_BASE 0
@@ -29,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,          KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       LM(LAYER_GUI, MOD_LGUI), KC_Z, KC_X, KC_C, KC_V, KC_B,                        KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_EQUAL,
 
-      KC_ALT_TAB, KC_SFT_BSPC, KC_CTL_DEL,
+      KC_ALT_TAB, LM(LAYER_SFT, MOD_LSFT), LM(LAYER_CTLALT, MOD_LCTL),
       KC_NAV_ENT, KC_SYM_SPC, MO(LAYER_FN)
     ),
 
@@ -51,9 +51,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4),             _______, _______, _______, _______, _______, _______,
-      LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,           KC_PGUP, KC_BSPC, KC_DEL, KC_HOME, KC_END, _______,
-      KC_LGUI, KC_50, KC_49, KC_38, KC_27, KC_16,                            KC_PGDN, S(KC_TAB), KC_TAB, _______, _______, _______,
+      _______, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4),             KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, _______,
+      LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,           KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      KC_LGUI, KC_50, KC_49, KC_38, KC_27, KC_16,                            _______, _______, _______, _______, _______, _______,
       
       ALT_T(KC_ENT), SFT_T(KC_BSPC), CTL_T(KC_DEL),
       RCTL_T(KC_ENT), RSFT_T(KC_SPC), KC_RALT
@@ -130,7 +130,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   switch (keycode) {
 
-    case KC_SFT_BSPC:
+    /*case KC_SFT_BSPC:
       RETRO_TAP(KC_BSPC);
       ALSO_LAYER(LAYER_SFT);
       return true; // continue processing normally
@@ -139,6 +139,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       RETRO_TAP(KC_DEL);
       ALSO_LAYER(LAYER_CTLALT);
       return true; // continue processing normally
+    */
 
     case KC_SYM_SPC:
       RETRO_TAP(KC_SPC);
