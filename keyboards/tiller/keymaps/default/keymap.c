@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, _______,
       LCTL_T(KC_TAB), KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, _______,
-      S(KC_TAB), KC_F11, KC_F12, _______, KC_APP, TG(LAYER_GAME), _______,
+      KC_STAB, KC_F11, KC_F12, _______, KC_APP, TG(LAYER_GAME), _______,
       _______, _______, _______, _______, _______, _______, _______,
 
       _______, KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, KC_DEL,
@@ -201,7 +201,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         RETRO_SET;
         register_code(KC_LSFT);
       } else {
-        if (RETRO_ELAPSED < TAPPING_TERM && !interrupted) {
+        if (RETRO_ELAPSED < RETRO_TERM && !interrupted) {
           tap_code(KC_TAB);
         }
         unregister_code(KC_LSFT);
@@ -215,7 +215,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         if (interrupted) {
           unregister_code(KC_LCTL);
-        } else if (RETRO_ELAPSED < TAPPING_TERM) {
+        } else if (RETRO_ELAPSED < RETRO_TERM) {
           bool sfted = get_mods() & MOD_LSFT;
           if (sfted) {
             unregister_code(KC_LSFT);
