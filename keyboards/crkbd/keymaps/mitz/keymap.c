@@ -37,15 +37,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,              KC_CIRCUMFLEX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_ASTERISK, KC_KP_MINUS,
-      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,                KC_EQUAL, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_0, KC_KP_PLUS,
-      _______, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______,    KC_KP_SLASH, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
+      KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,              KC_CIRCUMFLEX, KC_7, KC_KP_8, KC_9, KC_ASTERISK, KC_MINUS,
+      KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,                KC_EQUAL, KC_4, KC_5, KC_6, KC_0, KC_PLUS,
+      _______, KC_BSLASH, KC_AMPERSAND, KC_LBRACKET, KC_RBRACKET, _______,    KC_SLASH, KC_1, KC_2, KC_3, KC_KP_DOT, KC_KP_ENTER,
       KC_SPC, C(KC_BSPC), C(KC_DEL),
       _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      A(S(KC_5)), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,                   KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, KC_DEL,
+      KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4),                   KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, KC_DEL,
       LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,           KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, S(KC_DEL),
       KC_STAB, _______, _______, _______, _______, TG(LAYER_CM),     _______, _______, _______, _______, _______, _______,
       _______, _______, _______,
@@ -83,6 +83,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
 
       KC_J, SFT_T(KC_M), KC_ENT,
+      _______, _______, _______
+    ),
+
+    [LAYER_FN] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,      KC_F10, KC_F7, KC_F8, KC_F9, _______, _______,
+      _______, _______, _______, _______, _______, _______,      KC_F11, KC_F4, KC_F5, KC_F6, _______, _______,
+      _______, _______, _______, _______, _______, _______,      KC_F12, KC_F1, KC_F2, KC_F3, _______, _______,
+      _______, _______, _______,
       _______, _______, _______
     )
 };
