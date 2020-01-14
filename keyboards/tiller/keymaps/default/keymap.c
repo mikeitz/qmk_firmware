@@ -47,25 +47,25 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      XXXXXXX, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,
+      LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,
       MO(LAYER_MUS), KC_Z, KC_X, KC_C, KC_V, KC_B,
       LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, XXXXXXX,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, MO(LAYER_NAV),
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), XXXXXXX
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), LT(LAYER_FN, KC_TAB)
     ),
 
     //*
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,
-      _______, _______, _______, KC_LBRACKET, KC_RBRACKET, _______,
+      _______, KC_TILDE, KC_TILDE, KC_LBRACKET, KC_RBRACKET, _______,
       KC_SPC, C(KC_BSPC), C(KC_DEL),
 
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_GRAVE, KC_TILDE, _______,
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, _______, _______,
       _______, KC_MINUS, KC_EQUAL, KC_DQUO, KC_QUOTE, _______,
       _______, KC_UNDERSCORE, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
       _______, _______, _______
