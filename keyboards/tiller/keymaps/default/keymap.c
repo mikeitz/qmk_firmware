@@ -37,6 +37,7 @@ enum custom_keycodes {
 
 #define LAYER_SYM 3
 #define LAYER_NAV 4
+#define LAYER_FN 5
 #define LAYER_CTL 11
 #define LAYER_ALT 12
 #define LAYER_SFT 13
@@ -47,8 +48,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
       KC_EQUAL, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      LT(LAYER_MUS, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
-      KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B,
+      LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
+      MO(LAYER_MUS), KC_Z, KC_X, KC_C, KC_V, KC_B,
       LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
@@ -57,6 +58,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), XXXXXXX
     ),
 
+    //*
+    [LAYER_SYM] = LAYOUT(
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,
+      _______, _______, _______, KC_LBRACKET, KC_RBRACKET, _______,
+      KC_SPC, C(KC_BSPC), C(KC_DEL),
+
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_GRAVE, KC_TILDE, _______,
+      _______, KC_MINUS, KC_EQUAL, KC_DQUO, KC_QUOTE, _______,
+      _______, KC_UNDERSCORE, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
+      _______, _______, _______
+    ),
+    //*/
+
+    /*
     [LAYER_SYM] = LAYOUT(
       KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,
@@ -68,16 +84,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_KP_SLASH, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, KC_KP_ENTER,
       _______, _______, _______
     ),
+    //*/
     
     [LAYER_NAV] = LAYOUT(
-      _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,
-      LCTL_T(KC_TAB), KC_F6, KC_F7, KC_F8, KC_F9, KC_F10,
-      KC_STAB, KC_F11, KC_F12, _______, KC_APP, TG(LAYER_GAME),
+      KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4), 
+      LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      KC_LGUI, _______, _______, _______, _______, _______,
       _______, _______, _______,
 
-      KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL, KC_DEL,
-      KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, S(KC_DEL),
-      KC_PSCR, KC_SLCK, KC_PAUS, KC_INS, KC_CLCK, KC_NLCK,
+      _______, KC_7, KC_8, KC_9, KC_MINUS, _______,
+      _______, KC_4, KC_5, KC_6, KC_0, _______,
+      _______, KC_1, KC_2, KC_3, KC_DOT, _______,
+      _______, _______, _______
+    ),
+
+    [LAYER_FN] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______,
+
+      _______, KC_F7, KC_F8, KC_F9, KC_F11, _______,
+      _______, KC_F4, KC_F5, KC_F6, KC_F10, _______,
+      _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
       _______, _______, _______
     ),
 
