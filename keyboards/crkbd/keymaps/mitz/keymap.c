@@ -21,11 +21,11 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_EQUAL, KC_Q, KC_W, KC_E, KC_R, KC_T,     KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
-      LT(LAYER_NAV, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B,      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,     KC_Y, KC_U, KC_I, KC_O, KC_P, XXXXXXX,
+      LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, MO(LAYER_NAV),
+      KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B,      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
       LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), MO(LAYER_FN)
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), LT(LAYER_FN, KC_TAB)
     ),
 
     [LAYER_CM] = LAYOUT(
@@ -36,6 +36,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______
     ),
 
+    [LAYER_SYM] = LAYOUT(
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, _______, KC_MINUS,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,             _______, KC_MINUS, KC_UNDERSCORE, KC_DQUO, KC_QUOTE, KC_QUOTE,
+      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, _______,     _______, KC_EQUAL, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
+      KC_SPC, C(KC_BSPC), C(KC_DEL),
+      _______, _______, _______
+    ),
+
+    [LAYER_NAV] = LAYOUT(
+      KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), A(KC_F4),     KC_PLUS, KC_7, KC_8, KC_9, KC_MINUS, _______,
+      LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,   KC_EQUAL, KC_4, KC_5, KC_6, KC_0, _______,
+      KC_STAB, _______, _______, _______, _______, TG(LAYER_CM),     KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
+      _______, _______, _______,
+      _______, _______, _______
+    ),
+
+    /*
     [LAYER_SYM] = LAYOUT(
       KC_GRAVE, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,              KC_CIRCUMFLEX, KC_7, KC_KP_8, KC_9, KC_ASTERISK, KC_MINUS,
       KC_TILDE, KC_HASH, KC_PIPE, KC_LPRN, KC_RPRN, KC_DOLLAR,                KC_EQUAL, KC_4, KC_5, KC_6, KC_0, KC_PLUS,
@@ -51,6 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______,
       _______, _______, _______
     ),
+    */
 
     [LAYER_CTL] = LAYOUT(
       _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______,
