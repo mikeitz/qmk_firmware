@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LCTL_T(KC_TAB), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,   KC_EQUAL, KC_4, KC_5, KC_6, KC_0, _______,
       KC_STAB, _______, _______, _______, _______, TG(LAYER_CM),     KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, _______, _______,
-      _______, _______, _______
+      S(KC_TAB), KC_TAB, _______
     ),
 
     /*
@@ -180,7 +180,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_MAYBE_TAB:
       if (record->event.pressed) {
-        if (arm_maybe_tab == 0) {
+        if (arm_maybe_tab) {
           unregister_code(KC_LSFT);
           tap_code(KC_TAB);
           register_code(KC_LSFT);
