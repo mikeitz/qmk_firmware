@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 
 enum custom_keycodes {
-  KC_STAB = SAFE_RANGE, KC_UNSFT_TAB
+  KC_STAB = SAFE_RANGE, KC_UNSFT_TAB, KC_MAYBE_STAB, KC_MAYBE_TAB
 };
 
 #define KC_SFT_BSPC SFT_T(KC_BSPC)
@@ -22,7 +22,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
       KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,     KC_Y, KC_U, KC_I, KC_O, KC_P, XXXXXXX,
-      LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, MO(LAYER_NAV),
+      LT(LAYER_NAV, KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, XXXXXXX,
       KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B,      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
       LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), LT(LAYER_FN, KC_TAB)
@@ -37,10 +37,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, _______, _______,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,             _______, KC_MINUS, KC_UNDERSCORE, KC_DQUO, KC_QUOTE, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_TAB, KC_ESC, _______,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,             _______, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, _______,     _______, KC_EQUAL, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
-      KC_SPC, C(KC_BSPC), C(KC_DEL),
+      _______, C(KC_BSPC), C(KC_DEL),
       _______, _______, _______
     ),
 
@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB /*s tab*/, _______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
 
       _______, _______, _______,
-      _______, _______, _______
+      KC_MAYBE_STAB, KC_MAYBE_TAB, _______
     ),
 
     [LAYER_GUI] = LAYOUT(
@@ -130,6 +130,8 @@ static const uint8_t digits[] = {
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
 
+static bool arm_maybe_tab = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
     tap_code(KC_NLCK);
@@ -142,6 +144,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       register_code(KC_LCTL);
     }
     last_keycode = keycode;
+    if (arm_maybe_tab && keycode != KC_MAYBE_TAB && keycode != KC_MAYBE_STAB) {
+      arm_maybe_tab = false;
+    }
   } else if (keycode == last_keycode) {
     last_keycode = -1;
   }
@@ -159,12 +164,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_SFT_BSPC:
       RETRO_TAP(KC_BSPC);
       ALSO_LAYER(LAYER_SFT);
+      arm_maybe_tab = true;
       return true; // continue processing normally
 
     case KC_CTL_DEL:
       RETRO_TAP(KC_DEL);
       ALSO_LAYER(LAYER_CTL);
       return true; // continue processing normally
+
+    case KC_MAYBE_STAB:
+      if (record->event.pressed) {
+        tap_code16(arm_maybe_tab ? KC_TAB : KC_ENT);
+      }
+      return false;
+
+    case KC_MAYBE_TAB:
+      if (record->event.pressed) {
+        if (arm_maybe_tab == 0) {
+          unregister_code(KC_LSFT);
+          tap_code(KC_TAB);
+          register_code(KC_LSFT);
+        } else {
+          tap_code(KC_SPC);
+        }
+      }
+      return false;
 
     case KC_STAB:
       if (record->event.pressed) {
