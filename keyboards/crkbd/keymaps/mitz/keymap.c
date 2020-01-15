@@ -37,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_TAB, KC_ESC, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, KC_ESC, _______,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,             _______, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, _______,     _______, KC_EQUAL, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
       _______, C(KC_BSPC), C(KC_DEL),
@@ -113,11 +113,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-static const uint8_t digits[] = {
-  KC_1, KC_2, KC_3, KC_4, KC_5,
-  KC_6, KC_7, KC_8, KC_9, KC_0
-};
-
 #define RETRO_TERM 300
 #define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
 #define RETRO_SET retro_timer = record->event.time
@@ -129,7 +124,6 @@ static const uint8_t digits[] = {
 
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
-
 static bool arm_maybe_tab = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

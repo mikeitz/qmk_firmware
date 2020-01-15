@@ -20,8 +20,7 @@
 // -path:keyboards -path:users -path:layouts -path:docs
 
 enum custom_keycodes {
-  KC_STAB = SAFE_RANGE, KC_UNSFT_TAB,
-  KC_16, KC_27, KC_38, KC_49, KC_50,
+  KC_STAB = SAFE_RANGE, KC_UNSFT_TAB, KC_MAYBE_STAB, KC_MAYBE_TAB,
   KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
   KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3,
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
@@ -53,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LM(LAYER_ALT, MOD_LALT), KC_SFT_BSPC, KC_CTL_DEL,
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, XXXXXXX,
-      KC_H, KC_J, KC_K, KC_L, KC_SCOLON, MO(LAYER_NAV),
+      KC_H, KC_J, KC_K, KC_L, KC_SCOLON, XXXXXXX,
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), LT(LAYER_FN, KC_TAB)
     ),
@@ -63,10 +62,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, _______,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, _______,
-      KC_SPC, C(KC_BSPC), C(KC_DEL),
+      _______, C(KC_BSPC), C(KC_DEL),
 
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, _______, _______,
-      _______, KC_MINUS, KC_UNDERSCORE, KC_DQUO, KC_QUOTE, _______,
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, _______, KC_ESC, _______,
+      _______, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
       _______, KC_EQUAL, KC_PLUS, KC_PIPE, KC_BSLASH, _______,
       _______, _______, _______
     ),
@@ -95,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_PLUS, KC_7, KC_8, KC_9, KC_MINUS, _______,
       KC_EQUAL, KC_4, KC_5, KC_6, KC_0, _______,
       KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
-      _______, _______, _______
+      S(KC_TAB), KC_TAB, _______
     ),
 
     [LAYER_FN] = LAYOUT(
@@ -143,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
+      KC_MAYBE_STAB, KC_MAYBE_TAB, _______
     ),
 
     [LAYER_MUS] = LAYOUT(
@@ -182,11 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
-
-static const uint8_t digits[] = {
-  KC_1, KC_2, KC_3, KC_4, KC_5,
-  KC_6, KC_7, KC_8, KC_9, KC_0
-};
+static bool arm_maybe_tab = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
@@ -200,6 +195,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       register_code(KC_LCTL);
     }
     last_keycode = keycode;
+    if (arm_maybe_tab && keycode != KC_MAYBE_TAB && keycode != KC_MAYBE_STAB) {
+      arm_maybe_tab = false;
+    }
   } else if (keycode == last_keycode) {
     last_keycode = -1;
   }
@@ -217,12 +215,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_SFT_BSPC:
       RETRO_TAP(KC_BSPC);
       ALSO_LAYER(LAYER_SFT);
+      arm_maybe_tab = true;
       return true; // continue processing normally
 
     case KC_CTL_DEL:
       RETRO_TAP(KC_DEL);
       ALSO_LAYER(LAYER_CTL);
       return true; // continue processing normally
+
+    case KC_MAYBE_STAB:
+      if (record->event.pressed) {
+        tap_code16(arm_maybe_tab ? KC_TAB : KC_ENT);
+      }
+      return false;
+
+    case KC_MAYBE_TAB:
+      if (record->event.pressed) {
+        if (arm_maybe_tab) {
+          unregister_code(KC_LSFT);
+          tap_code(KC_TAB);
+          register_code(KC_LSFT);
+        } else {
+          tap_code(KC_SPC);
+        }
+      }
+      return false;
 
     case KC_STAB:
       if (record->event.pressed) {
@@ -252,18 +269,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           if (sfted) {
             register_code(KC_LSFT);
           }       
-        }
-      }
-      return false;
-
-    case KC_16 ... KC_50:
-      if (record->event.pressed) {
-        if (get_mods() & MOD_LSFT) {
-          unregister_code(KC_LSFT);
-          tap_code(digits[keycode - KC_16 + 5]);
-          register_code(KC_LSFT);
-        } else {
-          tap_code(digits[keycode - KC_16]);
         }
       }
       return false;
