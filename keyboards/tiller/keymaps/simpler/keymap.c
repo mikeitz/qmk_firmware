@@ -20,16 +20,12 @@
 // -path:keyboards -path:users -path:layouts -path:docs
 
 enum custom_keycodes {
-  KC_STAB = SAFE_RANGE, KC_UNSFT_TAB, KC_MAYBE_STAB, KC_MAYBE_TAB,
-  KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
+  KC_OCT_0 = SAFE_RANGE, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
   KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3,
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
   KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
 };
-
-#define KC_SFT_BSPC SFT_T(KC_BSPC)
-#define KC_CTL_DEL CTL_T(KC_DEL)
 
 #define LAYER_BASE 0
 #define LAYER_CM 1
@@ -37,9 +33,6 @@ enum custom_keycodes {
 #define LAYER_SYM 3
 #define LAYER_NAV 4
 #define LAYER_FN 5
-#define LAYER_CTL 11
-#define LAYER_ALT 12
-#define LAYER_SFT 13
 #define LAYER_GAME 14
 #define LAYER_MUS 15
 
@@ -94,42 +87,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______
     ),
 
-    [LAYER_CTL] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______,
-
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
-    ),
-
-    [LAYER_ALT] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______,
-
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
-    ),
-
-    [LAYER_SFT] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______,
-
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
-    ),
-
     [LAYER_MUS] = LAYOUT(
       KC_ALL_OFF, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
       _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON,
@@ -155,108 +112,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-#define RETRO_TERM 300
-#define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
-#define RETRO_SET retro_timer = record->event.time
-#define RETRO_TAP(kc) \
-  if (record->event.pressed) { RETRO_SET; } \
-  else { if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) { tap_code(kc); } }
-#define ALSO_LAYER(layer) \
-  if (record->event.pressed) { layer_on(layer); } else { layer_off(layer); }
-
-static uint16_t last_keycode = -1;
-static uint16_t retro_timer = 0;
-static bool arm_maybe_tab = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
     tap_code(KC_NLCK);
   }
 
-  bool interrupted = last_keycode != keycode;
-
-  if (record->event.pressed) {
-    if (interrupted && last_keycode == KC_UNSFT_TAB) {
-      register_code(KC_LCTL);
-    }
-    last_keycode = keycode;
-    if (arm_maybe_tab && keycode != KC_MAYBE_TAB && keycode != KC_MAYBE_STAB) {
-      arm_maybe_tab = false;
-    }
-  } else if (keycode == last_keycode) {
-    last_keycode = -1;
-  }
-
   switch (keycode) {
-
-    case LT(LAYER_NAV, KC_ENT):
-      RETRO_TAP(KC_ENT);
-      return true; // continue processing normally
-
-    case LT(LAYER_SYM, KC_SPC):
-      RETRO_TAP(KC_SPC);
-      return true; // continue processing normally
-
-    case KC_SFT_BSPC:
-      RETRO_TAP(KC_BSPC);
-      ALSO_LAYER(LAYER_SFT);
-      arm_maybe_tab = true;
-      return true; // continue processing normally
-
-    case KC_CTL_DEL:
-      RETRO_TAP(KC_DEL);
-      ALSO_LAYER(LAYER_CTL);
-      return true; // continue processing normally
-
-    case KC_MAYBE_STAB:
-      if (record->event.pressed) {
-        tap_code16(arm_maybe_tab ? KC_TAB : KC_ENT);
-      }
-      return false;
-
-    case KC_MAYBE_TAB:
-      if (record->event.pressed) {
-        if (arm_maybe_tab) {
-          unregister_code(KC_LSFT);
-          tap_code(KC_TAB);
-          register_code(KC_LSFT);
-        } else {
-          tap_code(KC_SPC);
-        }
-      }
-      return false;
-
-    case KC_STAB:
-      if (record->event.pressed) {
-        RETRO_SET;
-        register_code(KC_LSFT);
-      } else {
-        if (RETRO_ELAPSED < RETRO_TERM && !interrupted) {
-          tap_code(KC_TAB);
-        }
-        unregister_code(KC_LSFT);
-      }
-      return false;
-
-    case KC_UNSFT_TAB:
-      if (record->event.pressed) {
-        RETRO_SET;
-        // will register control before the next keypress when interrupted
-      } else {
-        if (interrupted) {
-          unregister_code(KC_LCTL);
-        } else if (RETRO_ELAPSED < RETRO_TERM) {
-          bool sfted = get_mods() & MOD_LSFT;
-          if (sfted) {
-            unregister_code(KC_LSFT);
-          }
-          tap_code(KC_TAB);
-          if (sfted) {
-            register_code(KC_LSFT);
-          }       
-        }
-      }
-      return false;
 
     case KC_OCT_0 ... KC_OCT_4:
       if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
