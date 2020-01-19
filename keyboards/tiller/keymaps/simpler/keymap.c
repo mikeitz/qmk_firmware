@@ -40,31 +40,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G,
+      CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B,
-      KC_LALT, MO(LAYER_NAV), KC_ENT,
+      KC_LALT, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
 
-      KC_Y, KC_U, KC_I, KC_O, KC_P, KC_DEL,
-      KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_BSPC,
-      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RSFT,
-      KC_SPC, MO(LAYER_SYM), KC_LGUI
+      KC_Y, KC_U, KC_I, KC_O, KC_P, XXXXXXX,
+      KC_H, KC_J, KC_K, KC_L, KC_SCOLON, XXXXXXX,
+      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, XXXXXXX,
+      KC_ENT, LT(LAYER_SYM, KC_SPC), KC_LGUI
     ),
 
-    //*
     [LAYER_SYM] = LAYOUT(
       KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, KC_BSPC, _______,
+      _______, C(KC_BSPC), C(KC_DEL),
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_PLUS, KC_MINUS, _______,
       XXXXXXX, KC_DQUO, KC_UNDERSCORE, KC_EQUAL, KC_QUOTE, _______,
-      XXXXXXX, KC_PIPE, XXXXXXX, XXXXXXX, KC_BSLASH, MO(LAYER_FN),
+      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, MO(LAYER_FN),
       _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      KC_ESC, A(KC_F4), KC_BSPC, KC_UP, KC_DEL, XXXXXXX, 
+      KC_ESC, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_ENT,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
       _______, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), XXXXXXX,
       _______, _______, _______,
@@ -72,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       XXXXXXX, KC_4, KC_5, KC_6, KC_0, _______,
       XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
-      KC_TAB, KC_DEL, _______
+      _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
