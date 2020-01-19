@@ -44,13 +44,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_BASE] = LAYOUT(
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,
       CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
-      KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B,
-      KC_LALT, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
+      KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
+      KC_LGUI, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), XXXXXXX
     ),
 
     [LAYER_SYM_ALL] = LAYOUT(
@@ -82,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV_ALL] = LAYOUT(
       A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,
       CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
