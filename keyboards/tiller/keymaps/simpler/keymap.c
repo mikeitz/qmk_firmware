@@ -73,8 +73,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
       _______, C(KC_BSPC), C(KC_DEL),
 
-      KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_ASTERISK, KC_EQUAL,
-      KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_PLUS,
+      KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
+      KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
       XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, MO(LAYER_FN),
       _______, _______, _______
     ),

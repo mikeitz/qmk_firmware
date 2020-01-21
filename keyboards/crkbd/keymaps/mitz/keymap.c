@@ -10,7 +10,6 @@ enum custom_keycodes {
 #define LAYER_SYM 3
 #define LAYER_NAV 4
 #define LAYER_FN 5
-#define LAYER_GUI 14
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -18,8 +17,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,              KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
       KC_RSFT, KC_Z, KC_X, KC_C, KC_V, KC_B,             KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
-      KC_LALT, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
-      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI
+      KC_LGUI, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
+      LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LALT
     ),
 
     [LAYER_CM] = LAYOUT(
@@ -31,8 +30,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_SYM] = LAYOUT(
-      KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,            KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_ASTERISK, KC_EQUAL,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,             KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_PLUS,
+      KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,            KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,             KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,     XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, MO(LAYER_FN),
       _______, C(KC_BSPC), C(KC_DEL),
       _______, _______, _______
@@ -44,15 +43,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
       S(KC_TAB), KC_TAB, _______
-    ),
-
-    [LAYER_GUI] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,         _______, _______, _______, _______, _______, _______,
-      KC_L, _______, _______, _______, _______, _______,            _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,         _______, _______, _______, _______, _______, _______,
-
-      KC_J, SFT_T(KC_M), KC_ENT,
-      _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
