@@ -32,10 +32,9 @@ enum custom_keycodes {
 #define LAYER_GAME 3
 
 #define LAYER_SYM 4
-#define LAYER_NAV 5
-#define LAYER_FN 6
-#define LAYER_SYM_ALL 7
-#define LAYER_NAV_ALL 8
+#define LAYER_SYM_THUMB 5
+#define LAYER_NAV 6
+#define LAYER_FN 7
 
 #define LAYER_MUS 15
 
@@ -53,25 +52,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI
     ),
 
-    [LAYER_SYM_ALL] = LAYOUT(
-      // Layout that moves right outermost columns into the middle
-      // by depending on the number keys on the nav layer.
-      KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
-      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, C(KC_BSPC), C(KC_DEL),
-
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_PLUS, KC_MINUS, _______,
-      XXXXXXX, KC_DQUO, KC_UNDERSCORE, KC_EQUAL, KC_QUOTE, _______,
-      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, MO(LAYER_FN),
-      _______, _______, _______
-    ),
-
     [LAYER_SYM] = LAYOUT(
       KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, C(KC_BSPC), C(KC_DEL),
+      _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
       KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
@@ -79,22 +64,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______
     ),
 
-    [LAYER_NAV_ALL] = LAYOUT(
-      A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,
-      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      _______, _______, _______,
+    [LAYER_SYM_THUMB] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, C(KC_BSPC), C(KC_DEL),
 
-      XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
-      XXXXXXX, KC_4, KC_5, KC_6, KC_0, KC_PGUP,
-      XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, KC_PGDN,
-      S(KC_TAB), KC_TAB, _______
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
       A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,
       CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
@@ -146,7 +131,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_code(KC_NLCK);
   }
 
+  if (keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
+    layer_off(LAYER_SYM_THUMB);
+  }
+
   switch (keycode) {
+
+    case LT(LAYER_SYM, KC_SPC):
+      if (record->event.pressed) layer_on(LAYER_SYM_THUMB);
+      return true;
 
     case KC_OCT_0 ... KC_OCT_4:
       if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
@@ -189,3 +182,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_init_user(void) {}
 
 void matrix_scan_user(void) {}
+
+/*
+    [LAYER_SYM_ALL] = LAYOUT(
+      // Layout that moves right outermost columns into the middle
+      // by depending on the number keys on the nav layer.
+      KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
+      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
+      _______, C(KC_BSPC), C(KC_DEL),
+
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_PLUS, KC_MINUS, _______,
+      XXXXXXX, KC_DQUO, KC_UNDERSCORE, KC_EQUAL, KC_QUOTE, _______,
+      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, MO(LAYER_FN),
+      _______, _______, _______
+    ),
+
+    [LAYER_NAV_ALL] = LAYOUT(
+      A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,
+      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      _______, KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, _______, _______,
+
+      XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
+      XXXXXXX, KC_4, KC_5, KC_6, KC_0, KC_PGUP,
+      XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, KC_PGDN,
+      S(KC_TAB), KC_TAB, _______
+    ),
+*/
