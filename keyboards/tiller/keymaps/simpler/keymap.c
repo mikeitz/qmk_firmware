@@ -166,6 +166,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       RETRO_TAP(KC_BSPC);
       return true;
 
+    case CTL_T(KC_ESC):
+      RETRO_TAP(KC_ESC);
+      return true;
+
     case LT(LAYER_NAV, KC_DEL):
       RETRO_TAP(KC_DEL);
       return true;
