@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
+      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, LT(LAYER_FN, KC_BSLASH),
       LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI
     ),
 
@@ -168,6 +168,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case LT(LAYER_NAV, KC_DEL):
       RETRO_TAP(KC_DEL);
+      return true;
+
+    case LT(LAYER_FN, KC_BSLASH):
+      RETRO_TAP(KC_BSLASH);
       return true;
 
     case KC_OCT_0 ... KC_OCT_4:
