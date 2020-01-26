@@ -125,6 +125,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+#define RETRO_TERM 200
+#define RETRO_ELAPSED TIMER_DIFF_16(record->event.time, retro_timer)
+#define RETRO_SET retro_timer = record->event.time
+#define RETRO_TAP(kc) \
+  if (record->event.pressed) { RETRO_SET; } \
+  else { if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) { tap_code(kc); } }
+
+static uint16_t last_keycode = -1;
+static uint16_t retro_timer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!host_keyboard_led_state().num_lock) {
@@ -135,10 +144,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     layer_off(LAYER_SYM_THUMB);
   }
 
+  bool interrupted = last_keycode != keycode;
+  if (record->event.pressed) {
+    last_keycode = keycode;
+  } else if (keycode == last_keycode) {
+    last_keycode = -1;
+  }
+
   switch (keycode) {
 
     case LT(LAYER_SYM, KC_SPC):
       if (record->event.pressed) layer_on(LAYER_SYM_THUMB);
+      RETRO_TAP(KC_SPC);
+      return true;
+
+    case LT(LAYER_NAV, KC_ENT):
+      RETRO_TAP(KC_ENT);
+      return true;
+
+    case SFT_T(KC_BSPC):
+      RETRO_TAP(KC_BSPC);
+      return true;
+
+    case LT(LAYER_NAV, KC_DEL):
+      RETRO_TAP(KC_DEL);
       return true;
 
     case KC_OCT_0 ... KC_OCT_4:
