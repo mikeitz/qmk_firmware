@@ -131,6 +131,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define RETRO_TAP(kc) \
   if (record->event.pressed) { RETRO_SET; } \
   else { if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) { tap_code(kc); } }
+#define RETRO_TAP_MOD(kc, mod) \
+  if (record->event.pressed) { RETRO_SET; } \
+  else { if (!interrupted && RETRO_ELAPSED >= TAPPING_TERM && RETRO_ELAPSED < RETRO_TERM) { unregister_code(mod); tap_code(kc); } }
 
 static uint16_t last_keycode = -1;
 static uint16_t retro_timer = 0;
@@ -162,20 +165,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       RETRO_TAP(KC_ENT);
       return true;
 
-    case SFT_T(KC_BSPC):
-      RETRO_TAP(KC_BSPC);
-      return true;
-
-    case CTL_T(KC_ESC):
-      RETRO_TAP(KC_ESC);
-      return true;
-
     case LT(LAYER_NAV, KC_DEL):
       RETRO_TAP(KC_DEL);
       return true;
 
     case LT(LAYER_FN, KC_BSLASH):
       RETRO_TAP(KC_BSLASH);
+      return true;
+
+    case SFT_T(KC_BSPC):
+      RETRO_TAP_MOD(KC_BSPC, KC_LSFT);
+      return true;
+
+    case CTL_T(KC_ESC):
+      RETRO_TAP_MOD(KC_ESC, KC_LCTL);
       return true;
 
     case KC_OCT_0 ... KC_OCT_4:
