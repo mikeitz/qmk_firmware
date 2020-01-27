@@ -25,6 +25,7 @@ enum custom_keycodes {
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
   KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
+  KC_UNSFT_TAB,
 };
 
 #define LAYER_BASE 0
@@ -35,6 +36,7 @@ enum custom_keycodes {
 #define LAYER_SYM_THUMB 5
 #define LAYER_NAV 6
 #define LAYER_FN 7
+#define LAYER_SFT_THUMB 8
 
 #define LAYER_MUS 15
 
@@ -74,6 +76,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______
+    ),
+
+    [LAYER_SFT_THUMB] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______,
+
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      KC_TAB, KC_UNSFT_TAB, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
@@ -146,6 +160,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
     layer_off(LAYER_SYM_THUMB);
   }
+  if (keycode != KC_TAB && keycode != KC_UNSFT_TAB) {
+    layer_off(LAYER_SFT_THUMB);
+  }
 
   bool interrupted = last_keycode != keycode;
   if (record->event.pressed) {
@@ -174,12 +191,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
 
     case SFT_T(KC_BSPC):
+      if (record->event.pressed) layer_on(LAYER_SFT_THUMB);
       RETRO_TAP_MOD(KC_BSPC, KC_LSFT);
       return true;
 
     case CTL_T(KC_ESC):
       RETRO_TAP_MOD(KC_ESC, KC_LCTL);
       return true;
+
+    case KC_UNSFT_TAB:
+      if (record->event.pressed) {
+        unregister_code(KC_LSFT);
+        tap_code(KC_TAB);
+        register_code(KC_LSFT);
+      }
+      return false;
 
     case KC_OCT_0 ... KC_OCT_4:
       if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
