@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, _______, _______,
+      _______, C(KC_BSPC), C(KC_DEL),
 
       KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
       KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
-      _______, C(KC_BSPC), C(KC_DEL),
+      _______, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
 
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
       XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX, S(KC_DEL), KC_DEL,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
       S(KC_ENT), S(KC_SPC), _______
     ),
 
@@ -157,8 +157,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_code(KC_NLCK);
   }
 
-  if (keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
-    layer_off(LAYER_SYM_THUMB);
+  if (layer_state_is(LAYER_SYM) && keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
+    layer_on(LAYER_SYM_THUMB);
   }
   if (keycode != KC_TAB && keycode != KC_UNSFT_TAB) {
     layer_off(LAYER_SFT_THUMB);
@@ -174,7 +174,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
 
     case LT(LAYER_SYM, KC_SPC):
-      if (record->event.pressed) layer_on(LAYER_SYM_THUMB);
+      if (!record->event.pressed) layer_off(LAYER_SYM_THUMB);
       RETRO_TAP(KC_SPC);
       return true;
 
@@ -248,6 +248,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_init_user(void) {}
 
 void matrix_scan_user(void) {}
+
+/*
+inline bool layer_is_on(layer_state_t  state, uint8_t layer) {
+  return state & (1UL << layer);
+}
+
+inline bool layer_has_turned_on(layer_state_t  before, layer_state_t after, uint8_t layer) {
+  return !layer_is_on(before, layer) && layer_is_on(after, layer);
+}
+
+layer_state_t  last_layer_state = 0;
+layer_state_t  layer_state_set_user(layer_state_t  state) {
+  layer_state_t before = last_layer_state;
+  last_layer_state = state;
+  if (!layer_is_on(state, LAYER_SYM) && layer_is_on(state, LAYER_SYM_THUMB)) {
+    layer_off(LAYER_SYM_THUMB);
+  } else if (layer_has_turned_on(before, state, LAYER_SYM) && !layer_is_on(state, LAYER_SYM_THUMB)) {
+    layer_on(LAYER_SYM_THUMB);
+  }
+  return last_layer_state;
+}
+*/
 
 /*
     [LAYER_SYM_ALL] = LAYOUT(

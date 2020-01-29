@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,            KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
       KC_LCTL, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,             KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,     XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, MO(LAYER_FN),
-      _______, _______, _______,
+      _______, C(KC_BSPC), C(KC_DEL),
       _______, _______, _______
     ),
 
@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,         _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,         _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
-      _______, C(KC_BSPC), C(KC_DEL),
+      _______, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL),
       _______, _______, _______
     ),
 
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
       CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,   XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX, S(KC_DEL), KC_DEL,
-      SFT_T(KC_SPC), KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      SFT_T(KC_SPC), KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
       S(KC_ENT), S(KC_SPC), _______
     ),
@@ -90,8 +90,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_code(KC_NLCK);
   }
 
-  if (keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
-    layer_off(LAYER_SYM_THUMB);
+  if (layer_state_is(LAYER_SYM) && keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
+    layer_on(LAYER_SYM_THUMB);
   }
   if (keycode != KC_TAB && keycode != KC_UNSFT_TAB) {
     layer_off(LAYER_SFT_THUMB);
@@ -107,7 +107,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
 
     case LT(LAYER_SYM, KC_SPC):
-      if (record->event.pressed) layer_on(LAYER_SYM_THUMB);
+      if (!record->event.pressed) layer_off(LAYER_SYM_THUMB);
       RETRO_TAP(KC_SPC);
       return true;
 
