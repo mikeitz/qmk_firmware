@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,   XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX, S(KC_DEL), KC_DEL,
       SFT_T(KC_SPC), KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
-      S(KC_ENT), S(KC_SPC), _______
+      KC_BSPC, KC_SPC, _______
     ),
 
     [LAYER_FN] = LAYOUT(
@@ -95,7 +95,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   if (keycode != KC_TAB && keycode != KC_UNSFT_TAB) {
     layer_off(LAYER_SFT_THUMB);
-  }
+  } 
 
   bool interrupted = last_keycode != keycode;
   if (record->event.pressed) {
