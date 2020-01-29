@@ -32,9 +32,11 @@ enum custom_keycodes {
 #define LAYER_CM 1
 #define LAYER_GAME 3
 
-#define LAYER_SYM 4
-#define LAYER_SYM_THUMB 5
-#define LAYER_NAV 6
+#define LAYER_NAV 4
+
+#define LAYER_SYM 5
+#define LAYER_SYM_THUMB 6
+
 #define LAYER_FN 7
 #define LAYER_SFT_THUMB 8
 
@@ -94,12 +96,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,
       CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, G(KC_E),
-      _______, _______, _______,
+      _______, _______, KC_DEL,
 
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
       XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX, S(KC_DEL), KC_DEL,
       XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
-      KC_BSPC, KC_SPC, _______
+      KC_TAB, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
@@ -157,12 +159,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_code(KC_NLCK);
   }
 
-  if (layer_state_is(LAYER_SYM) && keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
+  /*if (layer_state_is(LAYER_SYM) && keycode != C(KC_BSPC) && keycode != C(KC_DEL)) {
     layer_on(LAYER_SYM_THUMB);
   }
   if (keycode != KC_TAB && keycode != KC_UNSFT_TAB) {
     layer_off(LAYER_SFT_THUMB);
-  }
+  }*/
 
   bool interrupted = last_keycode != keycode;
   if (record->event.pressed) {
@@ -174,7 +176,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
 
     case LT(LAYER_SYM, KC_SPC):
-      if (!record->event.pressed) layer_off(LAYER_SYM_THUMB);
+      //if (!record->event.pressed) layer_off(LAYER_SYM_THUMB);
       RETRO_TAP(KC_SPC);
       return true;
 
@@ -191,7 +193,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
 
     case SFT_T(KC_BSPC):
-      if (record->event.pressed) layer_on(LAYER_SFT_THUMB);
+      //if (record->event.pressed) layer_on(LAYER_SFT_THUMB);
       RETRO_TAP_MOD(KC_BSPC, KC_LSFT);
       return true;
 
