@@ -29,25 +29,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      [LAYER_BASE] = LAYOUT(
        KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,                                      KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
        CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,                               KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
-       KC_RSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_1, KC_2, KC_3, KC_4, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
-       KC_ENT, _______, KC_LALT, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL), LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI, _______, _______
+       KC_RSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_TAB, S(KC_TAB), S(KC_TAB), KC_TAB, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
+       KC_ENT, KC_LALT, KC_LGUI, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL), LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI, KC_LALT, _______
      ),
      [LAYER_NAV] = LAYOUT(
        A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
        CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,                                    XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX, S(KC_DEL), KC_DEL,
-       SFT_T(KC_SPC), KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
+       SFT_T(KC_SPC), KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, _______, _______, XXXXXXX, S(KC_TAB), KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX,
                                   _______, _______, _______, _______, KC_DEL, KC_TAB, _______, _______, _______, _______
      ),
      [LAYER_SYM] = LAYOUT(
       KC_ESC, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,                                                     KC_CIRCUMFLEX, KC_7, KC_8, KC_9, KC_PLUS, KC_EQUAL,
       KC_LCTL, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,                                                      KC_AMPERSAND, KC_4, KC_5, KC_6, KC_0, KC_ASTERISK,
-      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, MO(LAYER_FN),
+      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX, _______, _______, _______, _______, XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, MO(LAYER_FN),
                                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
      ),
      [LAYER_FN] = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                     _______, KC_F7, KC_F8, KC_F9, KC_F11, _______,
       _______, _______, _______, _______, _______, _______,                                     _______, KC_F4, KC_F5, KC_F6, KC_F10, _______,
-      _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
                                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
      ),
 };
