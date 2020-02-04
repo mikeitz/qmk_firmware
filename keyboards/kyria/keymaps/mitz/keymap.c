@@ -30,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,                                      KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINUS,
        CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,                               KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE,
        KC_RSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_TAB, S(KC_TAB), S(KC_TAB), KC_TAB, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH,
-       KC_ENT, KC_LALT, KC_LGUI, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL), LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI, KC_LALT, _______
+       KC_ENT, KC_LALT, KC_LGUI, SFT_T(KC_BSPC), LT(LAYER_NAV, KC_DEL), LT(LAYER_NAV, KC_ENT), LT(LAYER_SYM, KC_SPC), KC_LGUI, KC_LALT, KC_ENT
      ),
      [LAYER_NAV] = LAYOUT(
        A(KC_F4), KC_BSPC, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_DEL,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S(KC_BSPC), KC_BSPC,
@@ -56,16 +56,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_DOWN);
+            tap_code(KC_RIGHT);
         } else {
-            tap_code(KC_UP);
+            tap_code(KC_LEFT);
         }
     }
     else if (index == 1) {
         if (clockwise) {
-            tap_code(KC_PGUP);
+            tap_code(KC_UP);
         } else {
-            tap_code(KC_PGDN);
+            tap_code(KC_DOWN);
         }
     }
 }
