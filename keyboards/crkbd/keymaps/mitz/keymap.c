@@ -13,15 +13,15 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,              KC_Y, KC_U, KC_I, KC_O, KC_P, KC_DEL,
+      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,              KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
       CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
       KC_RSFT, KC_Z, KC_X, KC_C, KC_V, KC_B,             KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, MO(LAYER_FN),
-      KC_LGUI, MO(LAYER_NAV), SFT_T(KC_BSPC),
+      KC_LGUI, MO(LAYER_NAV), KC_LSFT,
       KC_SPC, MO(LAYER_SYM), KC_LALT
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, KC_DEL,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,             XXXXXXX, KC_DQUO, KC_QUOTE, KC_UNDERSCORE, KC_MINUS, _______,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, KC_PIPE, KC_BSLASH, _______,
       _______, _______, _______,
