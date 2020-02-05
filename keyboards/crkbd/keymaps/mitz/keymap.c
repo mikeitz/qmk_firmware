@@ -23,15 +23,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,           KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, KC_DEL,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, KC_PIPE,             XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
-      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, KC_PIPE, KC_BSLASH, _______,
+      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,     XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
       _______, _______, _______,
       _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, XXXXXXX, KC_HOME, KC_UP, KC_END, KC_PGUP,            XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX, _______,
-      _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,        XXXXXXX, KC_4, KC_5, KC_6, KC_0, _______,
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, KC_1, KC_2, KC_3, XXXXXXX, _______,
+      _______, XXXXXXX, KC_HOME, KC_UP, KC_END, KC_PGUP,            KC_ASTERISK, KC_7, KC_8, KC_9, KC_MINUS, _______,
+      _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,        KC_PLUS, KC_4, KC_5, KC_6, KC_0, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, _______, _______,
       _______, _______, _______
     ),
