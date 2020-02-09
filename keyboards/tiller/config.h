@@ -32,9 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COLS 7
 #define TAPPING_TERM 125
 // #define QMK_KEYS_PER_SCAN 4
-#define TAPPING_FORCE_HOLD
-// #define PERMISSIVE_HOLD
-// #define IGNORE_MOD_TAP_INTERRUPT
+// #define TAPPING_FORCE_HOLD
 
 /*
  * Keyboard Matrix Assignments

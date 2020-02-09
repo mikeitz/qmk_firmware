@@ -1,7 +1,6 @@
 /* Copyright 2019 Mike Itz
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -44,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
-      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, MO(LAYER_FN),
+      KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, LT(LAYER_FN, KC_DEL),
       MO(LAYER_SYM), KC_SPC, KC_LGUI
     ),
 
@@ -52,24 +51,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, _______, KC_BSPC,
-
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, KC_DEL,
-      XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
-      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
-      _______, _______, _______
-    ),
-
-    [LAYER_NAV] = LAYOUT(
-      _______, XXXXXXX, KC_HOME, KC_UP, KC_END, KC_PGUP,
-      _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, G(KC_E),
       _______, _______, _______,
 
       KC_ASTERISK, KC_7, KC_8, KC_9, KC_PLUS, _______,
       KC_MINUS, KC_4, KC_5, KC_6, KC_0, _______,
       KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
-      KC_TAB, _______, _______
+      _______, _______, _______
+    ),
+
+    [LAYER_NAV] = LAYOUT(
+      _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
+      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      _______, XXXXXXX, XXXXXXX, KC_PGUP, KC_PGDN, G(KC_E),
+      _______, _______, _______,
+
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
+      XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
+      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
+      _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
