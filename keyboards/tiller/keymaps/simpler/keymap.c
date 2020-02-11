@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
-      _______, _______, _______,
+      _______, _______, C(KC_BSPC),
 
       KC_ASTERISK, KC_7, KC_8, KC_9, KC_PLUS, _______,
       KC_MINUS, KC_4, KC_5, KC_6, KC_0, _______,
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_NAV] = LAYOUT(
       _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
-      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      CTL_T(KC_ENT), KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
       _______, XXXXXXX, XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
