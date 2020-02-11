@@ -60,15 +60,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, XXXXXXX, KC_HOME, KC_UP, KC_END, KC_PGUP,
-      S(KC_TAB), KC_LCTL, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
-      _______, KC_LSFT, C(KC_X), C(KC_C), C(KC_V), XXXXXXX,
+      _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
+      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      _______, XXXXXXX, XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
       XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
       XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
-      _______, _______, _______
+      LT(LAYER_SYM, KC_TAB), _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
