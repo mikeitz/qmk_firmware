@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_DEL,
-      MO(LAYER_SYM), KC_SPC, MO(LAYER_FN)
+      MO(LAYER_SYM), KC_SPC, MO(LAYER_FN)   
     ),
 
     [LAYER_SYM] = LAYOUT(
@@ -60,14 +60,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
+      _______, KC_HOME, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
       CTL_T(KC_ENT), KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
       _______, KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
-      XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, _______,
-      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
+      KC_TAB, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, SFT_T(KC_ENT),
+      S(KC_TAB), KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
       _______, _______, _______
     ),
 
