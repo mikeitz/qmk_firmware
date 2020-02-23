@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, KC_HOME, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
+      KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME,
       CTL_T(KC_ENT), KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
       _______, KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
