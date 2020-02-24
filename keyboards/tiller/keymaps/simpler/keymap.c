@@ -53,9 +53,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
       _______, _______, _______,
 
-      KC_ASTERISK, KC_7, KC_8, KC_9, KC_PLUS, _______,
-      KC_MINUS, KC_4, KC_5, KC_6, KC_0, _______,
-      KC_SLASH, KC_1, KC_2, KC_3, KC_DOT, _______,
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
+      XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, SFT_T(KC_ENT),
+      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
       _______, _______, _______
     ),
 
@@ -65,9 +65,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
-      KC_TAB, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, SFT_T(KC_ENT),
-      S(KC_TAB), KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
+      XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
+      KC_TAB, KC_4, KC_5, KC_6, KC_0, _______,
+      S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
+
       _______, _______, _______
     ),
 
