@@ -24,6 +24,7 @@ enum custom_keycodes {
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
   KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
+  KC_EQUAL_US, KC_QUOTE_US, KC_BSLASH_US, KC_MINUS_US, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US
 };
 
 #define LAYER_BASE 0
@@ -50,12 +51,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
-      _______, KC_TILDE, KC_GRAVE, KC_LBRACKET, KC_RBRACKET, XXXXXXX,
+      _______, KC_TILDE, KC_GRAVE_US, KC_LBRACKET_US, KC_RBRACKET_US, XXXXXXX,
       _______, _______, _______,
 
-      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL, KC_PLUS, _______,
-      XXXXXXX, KC_DQUO, KC_QUOTE, KC_MINUS, KC_UNDERSCORE, SFT_T(KC_ENT),
-      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH, _______,
+      KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL_US, KC_PLUS, _______,
+      XXXXXXX, KC_DQUO, KC_QUOTE_US, KC_MINUS_US, KC_UNDERSCORE, SFT_T(KC_ENT),
+      XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
@@ -109,8 +110,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+#define UNSHIFT(x, y) case x: \
+  if (record->event.pressed) { \
+    if (get_mods() & MOD_LSFT) { \
+      unregister_code(KC_LSFT); \
+      register_code(y); \
+      register_code(KC_LSFT); \
+    } else { \
+      register_code(y); \
+    } \
+  } else { \
+    unregister_code(y); \
+  } return false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    UNSHIFT(KC_EQUAL_US, KC_EQUAL);
+    UNSHIFT(KC_QUOTE_US, KC_QUOTE);
+    UNSHIFT(KC_BSLASH_US, KC_BSLASH);
+    UNSHIFT(KC_MINUS_US, KC_MINUS);
+    UNSHIFT(KC_LBRACKET_US, KC_LBRACKET);
+    UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
+    UNSHIFT(KC_GRAVE_US, KC_GRAVE);
     default:
       return true;
   }
