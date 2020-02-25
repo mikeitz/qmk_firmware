@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_4, KC_5, KC_6, KC_0, SFT_T(KC_ENT),
       S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
 
-      _______, _______, _______
+      _______, SFT_T(KC_SPC), _______
     ),
 
     [LAYER_FN] = LAYOUT(
