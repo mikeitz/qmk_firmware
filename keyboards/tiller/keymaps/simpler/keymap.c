@@ -42,22 +42,42 @@ enum custom_keycodes {
   }
 #define CS(second, combo) \
   case second: return combo;
+#define CC(second) \
+  case KC_##second: return C(KC_##second);
 
 uint16_t get_combo(uint16_t first, uint16_t second) {
   switch (first) {
-    CF(KC_S,
-      CS(KC_D, KC_DEL);
-      CS(KC_F, KC_BSPC);
+    CF(KC_F,
+      CS(KC_D, KC_BSPC);
+      CS(KC_S, KC_DEL);
+      CS(KC_Z, C(KC_Z));
     );
     CF(KC_D,
       CS(KC_F, KC_TAB);
+      CS(KC_S, S(KC_TAB));
     );
     CF(KC_K,
       CS(KC_J, KC_ENT);
     );
-    CF(KC_L,
-      CS(KC_J, KC_ESC);
+    CF(KC_J,
+      CS(KC_K, KC_ESC);
     );
+    /*CF(KC_A,
+      CC(Q); CC(W); CC(E); CC(R); CC(T);
+      CC(Y); CC(U); CC(I); CC(O); CC(P);
+      CC(S); CC(D); CC(F); CC(G);
+      CC(H); CC(J); CC(K); CC(L);
+      CC(Z); CC(X); CC(C); CC(V); CC(B);
+      CC(N); CC(M);
+    );
+    CF(KC_SCOLON,
+      CC(Q); CC(W); CC(E); CC(R); CC(T);
+      CC(Y); CC(U); CC(I); CC(O); CC(P);
+      CC(A); CC(S); CC(D); CC(F); CC(G);
+      CC(H); CC(J); CC(K); CC(L);
+      CC(Z); CC(X); CC(C); CC(V); CC(B);
+      CC(N); CC(M);
+    );*/
     default: return 0;
   }
 }
@@ -194,7 +214,7 @@ bool handle_combo_one(uint16_t keycode, bool pressed) {
 bool handle_combo_two(uint16_t keycode, bool pressed) {
   if (ISMOD(keycode)) return true;
   if (!pressed && keycode == combo_second) {
-    tap_code(get_combo(combo_first, combo_second));
+    tap_code16(get_combo(combo_first, combo_second));
     combo_state = 3;
     return false;
   } else if (!pressed && keycode == combo_first) {
@@ -219,7 +239,7 @@ bool handle_combo_three(uint16_t keycode, bool pressed) {
   if (ISMOD(keycode)) return true;
   uint16_t combo = get_combo(combo_first, keycode);
   if (combo != 0) {
-    pressed ? register_code(combo) : unregister_code(combo);
+    pressed ? register_code16(combo) : unregister_code16(combo);
     return false;
   } else if (!pressed && keycode == combo_first) {
     combo_state = 0;
