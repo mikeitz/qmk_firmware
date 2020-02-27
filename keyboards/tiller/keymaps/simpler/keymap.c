@@ -34,29 +34,30 @@ enum custom_keycodes {
 #define LAYER_FN 7
 #define LAYER_MUS 15
 
+#define CF(first, defs) \
+  case first: switch(second) { \
+    case 0: return first; \
+    defs \
+    default: return 0; \
+  }
+#define CS(second, combo) \
+  case second: return combo;
+
 uint16_t get_combo(uint16_t first, uint16_t second) {
   switch (first) {
-    case KC_S: switch(second) {
-      case 0: return first;
-      case KC_D: return KC_DEL;
-      case KC_F: return KC_BSPC;
-      default: return 0;
-    }
-    case KC_D: switch(second) {
-      case 0: return first;
-      case KC_F: return KC_TAB;
-      default: return 0;
-    }
-    case KC_K: switch(second) {
-      case 0: return first;
-      case KC_J: return KC_ENT;
-      default: return 0;
-    }
-    case KC_L: switch(second) {
-      case 0: return first;
-      case KC_J: return KC_ESC;
-      default: return 0;
-    }
+    CF(KC_S,
+      CS(KC_D, KC_DEL);
+      CS(KC_F, KC_BSPC);
+    );
+    CF(KC_D,
+      CS(KC_F, KC_TAB);
+    );
+    CF(KC_K,
+      CS(KC_J, KC_ENT);
+    );
+    CF(KC_L,
+      CS(KC_J, KC_ESC);
+    );
     default: return 0;
   }
 }
