@@ -34,33 +34,6 @@ enum custom_keycodes {
 #define LAYER_FN 7
 #define LAYER_MUS 15
 
-uint16_t get_combo(uint16_t first, uint16_t second) {
-  switch (first) {
-    case KC_S: switch(second) {
-      case 0: return first;
-      case KC_D: return KC_DEL;
-      case KC_F: return KC_BSPC;
-      default: return 0;
-    }
-    case KC_D: switch(second) {
-      case 0: return first;
-      case KC_F: return KC_TAB;
-      default: return 0;
-    }
-    case KC_K: switch(second) {
-      case 0: return first;
-      case KC_J: return KC_ENT;
-      default: return 0;
-    }
-    case KC_L: switch(second) {
-      case 0: return first;
-      case KC_J: return KC_ESC;
-      default: return 0;
-    }
-    default: return 0;
-  }
-}
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
@@ -101,14 +74,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, _______, _______, _______, _______, CMB_TOG,
+      _______, _______, _______, _______, _______, TG(LAYER_GAME),
+      _______, _______, _______, _______, _______, _______,
       _______, _______, _______,
 
-      XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F11, _______,
-      XXXXXXX, KC_F4, KC_F5, KC_F6, KC_F10, _______,
-      XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, _______,
+      _______, KC_F7, KC_F8, KC_F9, KC_F11, _______,
+      _______, KC_F4, KC_F5, KC_F6, KC_F10, _______,
+      _______, KC_F1, KC_F2, KC_F3, KC_F12, _______,
       _______, _______, _______
     ),
 
@@ -154,12 +127,21 @@ uint8_t combo_state = 0;
 uint16_t combo_first = 0;
 uint16_t combo_second = 0;
 
-#define ISMOD(k) (k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL)
+// df tab, sf bspc, sd del
+// kj ent, kl esc
+// COMBO_FIRST(KC_D);
+// COMBO_FIRST(KC_S);
+// COMBO_FIRST(KC_K);
+// COMBO_SECOND(KC_S, KC_F, KC_BSPC);
+// COMBO_SECOND(KC_S, KC_D, KC_DEL);
+// COMBO_SECOND(KC_D, KC_F, KC_TAB);
+// COMBO_SECOND(KC_K, KC_J, KC_ENT);
+// COMBO_SECOND(KC_K, KC_L, KC_ESC);
 
 // state 0
 // A pressed, do nothing, enter state 1
 bool handle_combo_zero(uint16_t keycode, bool pressed) {
-  if (pressed && get_combo(keycode, 0) != 0) {
+  if (pressed && keycode == KC_S) {
     combo_state = 1;
     combo_first = keycode;
     return false;
@@ -168,13 +150,15 @@ bool handle_combo_zero(uint16_t keycode, bool pressed) {
   }
 }
 
+#define ISMOD(k) k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL
+
 // state 1 (A)
 // mod keys change, handle normally and remain in state 1
 // B pressed, do nothing, enter state 2
 // another unknown key pressed, register A and clear state
 bool handle_combo_one(uint16_t keycode, bool pressed) {
   if (ISMOD(keycode)) return true;
-  if (pressed && get_combo(combo_first, keycode) != 0) {
+  if (pressed && (keycode == KC_F || keycode == KC_D)) {
     combo_state = 2;
     combo_second = keycode;
     return false;
@@ -193,7 +177,8 @@ bool handle_combo_one(uint16_t keycode, bool pressed) {
 bool handle_combo_two(uint16_t keycode, bool pressed) {
   if (ISMOD(keycode)) return true;
   if (!pressed && keycode == combo_second) {
-    tap_code(get_combo(combo_first, combo_second));
+    if (combo_second == KC_F) tap_code(KC_BSPC);
+    if (combo_second == KC_D) tap_code(KC_DEL);
     combo_state = 3;
     return false;
   } else if (!pressed && keycode == combo_first) {
@@ -216,9 +201,9 @@ bool handle_combo_two(uint16_t keycode, bool pressed) {
 // another unknown key pressed, (clear state, ignore key, and/or handle normally)
 bool handle_combo_three(uint16_t keycode, bool pressed) {
   if (ISMOD(keycode)) return true;
-  uint16_t combo = get_combo(combo_first, keycode);
-  if (combo != 0) {
-    pressed ? register_code(combo) : unregister_code(combo);
+  if (keycode == KC_F || keycode == KC_D) {
+    if (combo_second == KC_F) pressed ? register_code(KC_BSPC) : unregister_code(KC_BSPC);
+    if (combo_second == KC_D) pressed ? register_code(KC_DEL) : unregister_code(KC_DEL);
     return false;
   } else if (!pressed && keycode == combo_first) {
     combo_state = 0;
