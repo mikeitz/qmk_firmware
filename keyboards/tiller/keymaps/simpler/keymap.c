@@ -24,7 +24,8 @@ enum custom_keycodes {
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
   KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
-  KC_EQUAL_US, KC_QUOTE_US, KC_BSLASH_US, KC_MINUS_US, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US
+  KC_EQUAL_US, KC_QUOTE_US, KC_BSLASH_US, KC_MINUS_US, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US,
+  KC_CMB
 };
 
 #define LAYER_BASE 0
@@ -62,22 +63,6 @@ uint16_t get_combo(uint16_t first, uint16_t second) {
     CF(KC_J,
       CS(KC_K, KC_ESC);
     );
-    /*CF(KC_A,
-      CC(Q); CC(W); CC(E); CC(R); CC(T);
-      CC(Y); CC(U); CC(I); CC(O); CC(P);
-      CC(S); CC(D); CC(F); CC(G);
-      CC(H); CC(J); CC(K); CC(L);
-      CC(Z); CC(X); CC(C); CC(V); CC(B);
-      CC(N); CC(M);
-    );
-    CF(KC_SCOLON,
-      CC(Q); CC(W); CC(E); CC(R); CC(T);
-      CC(Y); CC(U); CC(I); CC(O); CC(P);
-      CC(A); CC(S); CC(D); CC(F); CC(G);
-      CC(H); CC(J); CC(K); CC(L);
-      CC(Z); CC(X); CC(C); CC(V); CC(B);
-      CC(N); CC(M);
-    );*/
     default: return 0;
   }
 }
@@ -122,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_CMB,
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
@@ -171,97 +156,149 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     unregister_code(y); \
   } return false;
 
-uint8_t combo_state = 0;
-uint16_t combo_first = 0;
-uint16_t combo_second = 0;
+bool combos = true;
 
 #define ISMOD(k) (k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL)
 
-// state 0
-// A pressed, do nothing, enter state 1
-bool handle_combo_zero(uint16_t keycode, bool pressed) {
-  if (pressed && get_combo(keycode, 0) != 0) {
-    combo_state = 1;
-    combo_first = keycode;
-    return false;
-  } else {
-    return true;
-  }
-}
+struct combo_t {
+  uint8_t state;
+  uint16_t first;
+  uint16_t second;
+};
+struct combo_t combo_alpha = { 0, 0, 0 };
+struct combo_t combo_rctl = { 0, 0, 0 };
+struct combo_t combo_ralt = { 0, 0, 0 };
+struct combo_t combo_lctl = { 0, 0, 0 };
+struct combo_t combo_lalt = { 0, 0, 0 };
 
-// state 1 (A)
-// mod keys change, handle normally and remain in state 1
-// B pressed, do nothing, enter state 2
-// another unknown key pressed, register A and clear state
-bool handle_combo_one(uint16_t keycode, bool pressed) {
+bool handle_combo(uint16_t keycode, bool pressed, struct combo_t* combo) {
   if (ISMOD(keycode)) return true;
-  if (pressed && get_combo(combo_first, keycode) != 0) {
-    combo_state = 2;
-    combo_second = keycode;
-    return false;
-  } else {
-    register_code(combo_first);
-    combo_state = 0;
-    return true;
+  switch (combo->state) {
+    case 1: {
+      if (pressed && get_combo(combo->first, keycode) != 0) {
+        combo->state = 2;
+        combo->second = keycode;
+        return false;
+      } else {
+        register_code(combo->first);
+        combo->state = 0;
+        return true;
+      }
+    }
+    case 2: {
+      if (!pressed && keycode == combo->second) {
+        tap_code16(get_combo(combo->first, combo->second));
+        combo->state = 3;
+        return false;
+      } else if (!pressed && keycode == combo->first) {
+        tap_code(combo->first);
+        register_code(combo->second);
+        combo->state = 0;
+        return false;
+      } else {
+        register_code(combo->first);
+        register_code(combo->second);
+        combo->state = 0;
+        return true;
+      }
+    }
+    case 3: {
+      uint16_t code = get_combo(combo->first, keycode);
+      if (code != 0) {
+        pressed ? register_code16(code) : unregister_code16(code);
+        return false;
+      } else if (!pressed && keycode == combo->first) {
+        combo->state = 0;
+        return false;
+      } else {
+        return true;
+      }
+    }
+    default: {
+      if (pressed && get_combo(keycode, 0) != 0) {
+        combo->state = 1;
+        combo->first = keycode;
+        return false;
+      } else {
+        return true;
+      }
+    }
   }
 }
 
-// state 2 (AB)
-// mod keys change, handle normally and remain in state 2
-// B released, tap combo code and enter state 3
-// A released, tap A and register B and clear state
-// another unknown key pressed, register A and B and clear state
-bool handle_combo_two(uint16_t keycode, bool pressed) {
-  if (ISMOD(keycode)) return true;
-  if (!pressed && keycode == combo_second) {
-    tap_code16(get_combo(combo_first, combo_second));
-    combo_state = 3;
-    return false;
-  } else if (!pressed && keycode == combo_first) {
-    tap_code(combo_first);
-    register_code(combo_second);
-    combo_state = 0;
-    return false;
-  } else {
-    register_code(combo_first);
-    register_code(combo_second);
-    combo_state = 0;
-    return true;
-  }
-}
-
-// state 3 (A)
-// mod keys change, handle normally and remain in state 3
-// B pressed, tap combo code and remain in state 3
-// A released, clear state
-// another unknown key pressed, (clear state, ignore key, and/or handle normally)
-bool handle_combo_three(uint16_t keycode, bool pressed) {
-  if (ISMOD(keycode)) return true;
-  uint16_t combo = get_combo(combo_first, keycode);
-  if (combo != 0) {
-    pressed ? register_code16(combo) : unregister_code16(combo);
-    return false;
-  } else if (!pressed && keycode == combo_first) {
-    combo_state = 0;
-    return false;
-  } else {
-    return true;
-  }
-}
-
-bool handle_combo(uint16_t keycode, bool pressed) {
-  switch (combo_state) {
-    case 1: return handle_combo_one(keycode, pressed);
-    case 2: return handle_combo_two(keycode, pressed);
-    case 3: return handle_combo_three(keycode, pressed);
-    default: return handle_combo_zero(keycode, pressed);
+bool handle_combo_mod(uint16_t mod, uint16_t modkey, uint16_t keycode, bool pressed, struct combo_t* combo) {
+  if (keycode >= 0xB0 || ISMOD(keycode)) return true;
+  switch (combo->state) {
+    case 1: {
+      if (pressed) {
+        combo->state = 2;
+        combo->second = keycode;
+        return false;
+      } else if (!pressed && keycode == combo->first) {
+        combo->state = 0;
+        tap_code16(combo->first);
+        return false;
+      } else {
+        return true;
+      }
+    }
+    case 2: {
+      if (!pressed && keycode == combo->second) {
+        register_code16(mod);
+        tap_code16(combo->second);
+        combo->state = 3;
+        return false;
+      } else if (!pressed && keycode == combo->first) {
+        tap_code16(combo->first);
+        register_code16(combo->second);
+        combo->state = 0;
+        return false;
+      } else {
+        register_code16(combo->first);
+        register_code16(combo->second);
+        combo->state = 0;
+        return true;
+      }
+    }
+    case 3: {
+      if (!pressed && keycode == combo->first) {
+        combo->state = 0;
+        unregister_code16(mod);
+        return false;
+      } else {
+        return true;
+      }
+    }
+    default: {
+      if (pressed && modkey == keycode) {
+        combo->state = 1;
+        combo->first = keycode;
+        return false;
+      } else {
+        return true;
+      }
+    }
   }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  if (!handle_combo(keycode, record->event.pressed)) {
-    return false;
+  if (combos) {
+    if (!handle_combo(keycode, record->event.pressed, &combo_alpha)) {
+      return false;
+    }
+    /*if (!handle_combo_mod(KC_LCTL, KC_A, keycode, record->event.pressed, &combo_lctl)) {
+      return false;
+    }
+    if (!handle_combo_mod(KC_LALT, KC_Z, keycode, record->event.pressed, &combo_lalt)) {
+      return false;
+    }
+    if (!handle_combo_mod(KC_RCTL, KC_SCOLON, keycode, record->event.pressed, &combo_rctl)) {
+      return false;
+    }
+    if (!handle_combo_mod(KC_RALT, KC_SLASH, keycode, record->event.pressed, &combo_ralt)) {
+      return false;
+    }*/
   }
 
   switch (keycode) {
@@ -272,6 +309,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     UNSHIFT(KC_LBRACKET_US, KC_LBRACKET);
     UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
     UNSHIFT(KC_GRAVE_US, KC_GRAVE);
+    case KC_CMB:
+      if (record->event.pressed) combos = !combos;
+      return false;
     default:
       return true;
   }
