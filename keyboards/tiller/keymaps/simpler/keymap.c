@@ -170,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     unregister_code(y); \
   } return false;
 
-bool combos = true;
+bool combos = false;
 
 #define ISMOD(k) (k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL)
 
