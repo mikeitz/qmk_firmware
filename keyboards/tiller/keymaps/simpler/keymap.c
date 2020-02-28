@@ -52,6 +52,20 @@ uint16_t get_combo(uint16_t first, uint16_t second) {
       CS(KC_D, KC_BSPC);
       CS(KC_S, KC_DEL);
       CS(KC_Z, C(KC_Z));
+
+      CS(KC_M, KC_F1);
+      CS(KC_COMMA, KC_F2);
+      CS(KC_DOT, KC_F3);
+      CS(KC_J, KC_F4);
+      CS(KC_K, KC_F5);
+      CS(KC_L, KC_F6);
+      CS(KC_U, KC_F7);
+      CS(KC_I, KC_F8);
+      CS(KC_O, KC_F9);
+      CS(KC_SCOLON, KC_F10);
+      CS(KC_P, KC_F11);
+      CS(KC_SLASH, KC_F12);
+
     );
     CF(KC_D,
       CS(KC_F, KC_TAB);
