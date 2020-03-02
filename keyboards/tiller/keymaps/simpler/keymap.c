@@ -43,8 +43,6 @@ enum custom_keycodes {
   }
 #define CS(second, combo) \
   case second: return combo;
-#define CC(second) \
-  case KC_##second: return C(KC_##second);
 
 uint16_t get_combo(uint16_t first, uint16_t second) {
   switch (first) {
@@ -170,20 +168,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     unregister_code(y); \
   } return false;
 
-bool combos = false;
-
 #define ISMOD(k) (k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL)
 
+bool combos = false;
 struct combo_t {
   uint8_t state;
   uint16_t first;
   uint16_t second;
 };
 struct combo_t combo_alpha = { 0, 0, 0 };
-struct combo_t combo_rctl = { 0, 0, 0 };
-struct combo_t combo_ralt = { 0, 0, 0 };
-struct combo_t combo_lctl = { 0, 0, 0 };
-struct combo_t combo_lalt = { 0, 0, 0 };
 
 bool handle_combo(uint16_t keycode, bool pressed, struct combo_t* combo) {
   if (ISMOD(keycode)) return true;
@@ -240,79 +233,10 @@ bool handle_combo(uint16_t keycode, bool pressed, struct combo_t* combo) {
   }
 }
 
-bool handle_combo_mod(uint16_t mod, uint16_t modkey, uint16_t keycode, bool pressed, struct combo_t* combo) {
-  if (keycode >= 0xB0 || ISMOD(keycode)) return true;
-  switch (combo->state) {
-    case 1: {
-      if (pressed) {
-        combo->state = 2;
-        combo->second = keycode;
-        return false;
-      } else if (!pressed && keycode == combo->first) {
-        combo->state = 0;
-        tap_code16(combo->first);
-        return false;
-      } else {
-        return true;
-      }
-    }
-    case 2: {
-      if (!pressed && keycode == combo->second) {
-        register_code16(mod);
-        tap_code16(combo->second);
-        combo->state = 3;
-        return false;
-      } else if (!pressed && keycode == combo->first) {
-        tap_code16(combo->first);
-        register_code16(combo->second);
-        combo->state = 0;
-        return false;
-      } else {
-        register_code16(combo->first);
-        register_code16(combo->second);
-        combo->state = 0;
-        return true;
-      }
-    }
-    case 3: {
-      if (!pressed && keycode == combo->first) {
-        combo->state = 0;
-        unregister_code16(mod);
-        return false;
-      } else {
-        return true;
-      }
-    }
-    default: {
-      if (pressed && modkey == keycode) {
-        combo->state = 1;
-        combo->first = keycode;
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  if (combos) {
-    if (!handle_combo(keycode, record->event.pressed, &combo_alpha)) {
-      return false;
-    }
-    /*if (!handle_combo_mod(KC_LCTL, KC_A, keycode, record->event.pressed, &combo_lctl)) {
-      return false;
-    }
-    if (!handle_combo_mod(KC_LALT, KC_Z, keycode, record->event.pressed, &combo_lalt)) {
-      return false;
-    }
-    if (!handle_combo_mod(KC_RCTL, KC_SCOLON, keycode, record->event.pressed, &combo_rctl)) {
-      return false;
-    }
-    if (!handle_combo_mod(KC_RALT, KC_SLASH, keycode, record->event.pressed, &combo_ralt)) {
-      return false;
-    }*/
+  if (combos && !handle_combo(keycode, record->event.pressed, &combo_alpha)) {
+    return false;
   }
 
   switch (keycode) {
@@ -323,9 +247,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     UNSHIFT(KC_LBRACKET_US, KC_LBRACKET);
     UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
     UNSHIFT(KC_GRAVE_US, KC_GRAVE);
+
     case KC_CMB:
       if (record->event.pressed) combos = !combos;
       return false;
+
+    case KC_OCT_0 ... KC_OCT_4:
+      if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
+      return false;
+
+    case KC_CH_0 ... KC_CH_7:
+      if (record->event.pressed) {
+        uint8_t ch = keycode - KC_CH_0 + ((get_mods() & MOD_LSFT) ? 8 : 0);
+        tiller_set_channel(ch);
+        midi_send_cc(&midi_device, 15, 101 + ch, 127);
+      }
+      return false;
+
+    case KC_STOP:
+      if (record->event.pressed) midi_send_cc(&midi_device, 14, 102, 127);
+      return false;
+
+    case KC_REC:
+      if (record->event.pressed) midi_send_cc(&midi_device, 14, 101, 127);
+      return false;
+
+    case KC_ALL_OFF:
+      if (record->event.pressed) tiller_all_notes_off();
+      return false;
+
+    case KC_CC_FOLLOW_OFF:
+      if (record->event.pressed) tiller_set_cc_follows_channel(false);
+      return false;
+
+    case KC_CC_FOLLOW_ON:
+      if (record->event.pressed) tiller_set_cc_follows_channel(true);
+      return false;
+      
     default:
       return true;
   }
