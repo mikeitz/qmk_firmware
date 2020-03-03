@@ -33,6 +33,7 @@ enum custom_keycodes {
 #define LAYER_NAV 4
 #define LAYER_SYM 5
 #define LAYER_FN 7
+#define LAYER_TAB 12
 #define LAYER_MUS 15
 
 #define CF(first, defs) \
@@ -114,7 +115,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       KC_TAB, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
       S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
-
       _______, SFT_T(KC_SPC), _______
     ),
 
@@ -135,6 +135,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON,
       _______, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, KC_CC_FOLLOW_OFF,
       KC_STOP, KC_LSFT, KC_REC,
+
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______
+    ),
+
+    [LAYER_TAB] = LAYOUT(
+      XXXXXXX, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, S(KC_TAB), KC_TAB,
 
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
@@ -247,6 +259,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     UNSHIFT(KC_LBRACKET_US, KC_LBRACKET);
     UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
     UNSHIFT(KC_GRAVE_US, KC_GRAVE);
+
+    case CTL_T(KC_ESC):
+    case KC_LALT:
+      record->event.pressed ? layer_on(LAYER_TAB) : layer_off(LAYER_TAB);
+      return true;
 
     case KC_CMB:
       if (record->event.pressed) combos = !combos;
