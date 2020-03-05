@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
       _______, KC_TILDE, KC_GRAVE_US, KC_LBRACKET_US, KC_RBRACKET_US, XXXXXXX,
-      _______, _______, _______,
+      _______, _______, LT(LAYER_SYM, KC_TAB),
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL_US, KC_PLUS, _______,
       XXXXXXX, KC_DQUO, KC_QUOTE_US, KC_MINUS_US, KC_UNDERSCORE, _______,
@@ -115,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       KC_TAB, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
       S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
-      _______, SFT_T(KC_SPC), _______
+      LT(LAYER_NAV, KC_TAB), SFT_T(KC_SPC), _______
     ),
 
     [LAYER_FN] = LAYOUT(
