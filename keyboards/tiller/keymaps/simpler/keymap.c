@@ -96,24 +96,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
-      CTL_T(KC_BSPC), KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
       _______, KC_TILDE, KC_GRAVE_US, KC_LBRACKET_US, KC_RBRACKET_US, XXXXXXX,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL_US, KC_PLUS, _______,
-      XXXXXXX, KC_DQUO, KC_QUOTE_US, KC_MINUS_US, KC_UNDERSCORE, KC_TAB,
+      XXXXXXX, KC_DQUO, KC_QUOTE_US, KC_MINUS_US, KC_UNDERSCORE, _______,
       XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
     [LAYER_NAV] = LAYOUT(
       KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
-      CTL_T(KC_BSPC), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      ALT_T(KC_ENT), KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
+      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      ALT_T(KC_DEL), KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
-      KC_TAB, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_TAB),
+      KC_TAB, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
       S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, SFT_T(KC_SPC), _______
     ),
