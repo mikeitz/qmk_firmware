@@ -24,61 +24,16 @@ enum custom_keycodes {
   KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7,
   KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, KC_PLAY, KC_REC,
   KC_ALL_OFF,
-  KC_EQUAL_US, KC_QUOTE_US, KC_BSLASH_US, KC_MINUS_US, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US,
-  KC_CMB
+  KC_EQUAL_US, KC_QUOTE_US, KC_BSLASH_US, KC_MINUS_US, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US
 };
 
 #define LAYER_BASE 0
+#define LAYER_TAB 1
 #define LAYER_GAME 3
 #define LAYER_NAV 4
 #define LAYER_SYM 5
 #define LAYER_FN 7
-#define LAYER_TAB 12
 #define LAYER_MUS 15
-
-#define CF(first, defs) \
-  case first: switch(second) { \
-    case 0: return first; \
-    defs \
-    default: return 0; \
-  }
-#define CS(second, combo) \
-  case second: return combo;
-
-uint16_t get_combo(uint16_t first, uint16_t second) {
-  switch (first) {
-    CF(KC_F,
-      CS(KC_D, KC_BSPC);
-      CS(KC_S, KC_DEL);
-      CS(KC_Z, C(KC_Z));
-
-      CS(KC_M, KC_F1);
-      CS(KC_COMMA, KC_F2);
-      CS(KC_DOT, KC_F3);
-      CS(KC_J, KC_F4);
-      CS(KC_K, KC_F5);
-      CS(KC_L, KC_F6);
-      CS(KC_U, KC_F7);
-      CS(KC_I, KC_F8);
-      CS(KC_O, KC_F9);
-      CS(KC_SCOLON, KC_F10);
-      CS(KC_P, KC_F11);
-      CS(KC_SLASH, KC_F12);
-
-    );
-    CF(KC_D,
-      CS(KC_F, KC_TAB);
-      CS(KC_S, S(KC_TAB));
-    );
-    CF(KC_K,
-      CS(KC_J, KC_ENT);
-    );
-    CF(KC_J,
-      CS(KC_K, KC_ESC);
-    );
-    default: return 0;
-  }
-}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -119,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_CMB,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
@@ -180,76 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     unregister_code(y); \
   } return false;
 
-#define ISMOD(k) (k == KC_LSFT || k == KC_RSFT || k == KC_LALT || k == KC_RALT || k == KC_LCTL || k == KC_RCTL)
-
-bool combos = false;
-struct combo_t {
-  uint8_t state;
-  uint16_t first;
-  uint16_t second;
-};
-struct combo_t combo_alpha = { 0, 0, 0 };
-
-bool handle_combo(uint16_t keycode, bool pressed, struct combo_t* combo) {
-  if (ISMOD(keycode)) return true;
-  switch (combo->state) {
-    case 1: {
-      if (pressed && get_combo(combo->first, keycode) != 0) {
-        combo->state = 2;
-        combo->second = keycode;
-        return false;
-      } else {
-        register_code(combo->first);
-        combo->state = 0;
-        return true;
-      }
-    }
-    case 2: {
-      if (!pressed && keycode == combo->second) {
-        tap_code16(get_combo(combo->first, combo->second));
-        combo->state = 3;
-        return false;
-      } else if (!pressed && keycode == combo->first) {
-        tap_code(combo->first);
-        register_code(combo->second);
-        combo->state = 0;
-        return false;
-      } else {
-        register_code(combo->first);
-        register_code(combo->second);
-        combo->state = 0;
-        return true;
-      }
-    }
-    case 3: {
-      uint16_t code = get_combo(combo->first, keycode);
-      if (code != 0) {
-        pressed ? register_code16(code) : unregister_code16(code);
-        return false;
-      } else if (!pressed && keycode == combo->first) {
-        combo->state = 0;
-        return false;
-      } else {
-        return true;
-      }
-    }
-    default: {
-      if (pressed && get_combo(keycode, 0) != 0) {
-        combo->state = 1;
-        combo->first = keycode;
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
-  if (combos && !handle_combo(keycode, record->event.pressed, &combo_alpha)) {
-    return false;
-  }
 
   switch (keycode) {
     UNSHIFT(KC_EQUAL_US, KC_EQUAL);
@@ -264,10 +150,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_LALT:
       record->event.pressed ? layer_on(LAYER_TAB) : layer_off(LAYER_TAB);
       return true;
-
-    case KC_CMB:
-      if (record->event.pressed) combos = !combos;
-      return false;
 
     case KC_OCT_0 ... KC_OCT_4:
       if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
