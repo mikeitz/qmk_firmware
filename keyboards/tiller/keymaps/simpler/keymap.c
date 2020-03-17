@@ -38,8 +38,8 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,
+      CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LGUI, KC_LSFT, MO(LAYER_NAV),
 
@@ -62,9 +62,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      KC_BSPC, KC_DEL, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
-      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      ALT_T(KC_DEL), KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
+      _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
+      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      _______, KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_TAB] = LAYOUT(
-      XXXXXXX, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, SFT_T(KC_TAB), S(KC_TAB),
@@ -146,6 +146,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
     UNSHIFT(KC_GRAVE_US, KC_GRAVE);
 
+    case CTL_T(KC_TAB):
     case CTL_T(KC_ESC):
     case KC_LALT:
       record->event.pressed ? layer_on(LAYER_TAB) : layer_off(LAYER_TAB);
