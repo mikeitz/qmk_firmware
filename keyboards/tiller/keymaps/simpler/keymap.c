@@ -30,8 +30,9 @@ enum custom_keycodes {
 #define LAYER_BASE 0
 #define LAYER_TAB 1
 #define LAYER_GAME 3
-#define LAYER_NAV 4
-#define LAYER_SYM 5
+#define LAYER_GAME2 4
+#define LAYER_NAV 5
+#define LAYER_SYM 6
 #define LAYER_FN 7
 #define LAYER_MUS 15
 
@@ -74,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, _______,
@@ -113,6 +114,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC, _______, _______, _______, _______, _______,
       KC_TAB, _______, _______, _______, _______, _______,
       KC_LSFT, _______, _______, _______, _______, _______,
+      KC_LALT, KC_SPC, KC_LCTL,
+
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, LT(LAYER_NAV, KC_SPC), _______
+    ),
+
+    [LAYER_GAME2] = LAYOUT(
+      KC_ESC, KC_T, KC_Q, KC_W, KC_E, KC_R,
+      KC_TAB, KC_LSFT, KC_A, KC_S, KC_D, KC_F,
+      KC_G, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LALT, KC_SPC, KC_LCTL,
 
       _______, _______, _______, _______, _______, _______,
