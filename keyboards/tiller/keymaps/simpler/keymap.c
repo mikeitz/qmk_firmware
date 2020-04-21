@@ -39,8 +39,8 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
+      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,
+      CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LGUI, KC_LSFT, MO(LAYER_NAV),
 
@@ -65,12 +65,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT(
       _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
       _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, KC_TAB, S(KC_TAB), KC_PGUP, KC_PGDN, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
-      KC_TAB, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
-      S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
+      XXXXXXX, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
+      XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, SFT_T(KC_SPC), _______
     ),
 
