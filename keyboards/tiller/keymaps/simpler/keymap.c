@@ -31,16 +31,17 @@ enum custom_keycodes {
 #define LAYER_TAB 1
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
-#define LAYER_NAV 5
-#define LAYER_SYM 6
-#define LAYER_FN 7
+#define LAYER_GAME3 5
+#define LAYER_NAV 12
+#define LAYER_SYM 13
+#define LAYER_FN 14
 #define LAYER_MUS 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T,
-      CTL_T(KC_TAB), KC_A, KC_S, KC_D, KC_F, KC_G,
+      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,   
+      CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LGUI, KC_LSFT, MO(LAYER_NAV),
 
@@ -63,10 +64,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
-      _______, KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, XXXXXXX, XXXXXXX, KC_PGUP, KC_PGDN, XXXXXXX,
-      _______, _______, _______,
+      _______, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
+      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
+      _______, KC_LSFT, KC_SPC, KC_PGUP, KC_PGDN, XXXXXXX,
+      _______, _______, _______,  
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       XXXXXXX, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
@@ -77,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_FN] = LAYOUT(
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME3),
       _______, _______, _______,
 
       XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F11, _______,
@@ -127,11 +128,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_LSFT, KC_A, KC_S, KC_D, KC_F,
       KC_G, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LALT, KC_SPC, KC_LCTL,
-
+      
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, LT(LAYER_NAV, KC_SPC), _______
+    ),
+
+    [LAYER_GAME3] = LAYOUT(
+      KC_ESC, KC_TAB, KC_Q, KC_W, KC_E, XXXXXXX,
+      KC_1, KC_LSFT, KC_A, KC_S, KC_D, KC_F,
+      KC_V, KC_2, KC_Z, KC_LCTL, KC_X, XXXXXXX,
+      XXXXXXX, KC_SPC, KC_T,
+
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______,
+      _______, _______, _______
     )
 };
 
