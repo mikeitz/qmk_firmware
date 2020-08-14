@@ -64,10 +64,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_NAV] = LAYOUT(
-      _______, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX,
-      CTL_T(KC_ENT), KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END,
-      _______, KC_LSFT, KC_SPC, KC_PGUP, KC_PGDN, XXXXXXX,
-      _______, _______, _______,  
+      _______, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
+      CTL_T(KC_ENT), KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
+      _______, TT(LAYER_MUS), KC_SPC, KC_HOME, KC_END, KC_DEL,
+      _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       XXXXXXX, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_FN] = LAYOUT(
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME3),
+      _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME3),
       _______, _______, _______,
 
       XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F11, _______,
@@ -88,15 +88,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_MUS] = LAYOUT(
-      KC_ALL_OFF, KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
-      _______, KC_CH_0, KC_CH_1, KC_CH_2, KC_CH_3, KC_CC_FOLLOW_ON,
-      _______, KC_CH_4, KC_CH_5, KC_CH_6, KC_CH_7, KC_CC_FOLLOW_OFF,
+      TG(LAYER_MUS), KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
+      TG(LAYER_MUS), XXXXXXX, KC_CH_3, KC_CH_2, KC_CH_1, KC_CH_0,
+      XXXXXXX, TG(LAYER_MUS), KC_CH_7, KC_CH_6, KC_CH_5, KC_CH_4,
       KC_STOP, KC_LSFT, KC_REC,
 
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4, XXXXXXX,
+      XXXXXXX, KC_CC_FOLLOW_ON, KC_CC_FOLLOW_OFF, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LSFT, XXXXXXX
     ),
 
     [LAYER_TAB] = LAYOUT(
@@ -179,7 +179,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
 
     case KC_OCT_0 ... KC_OCT_4:
-      if (record->event.pressed) tiller_set_octave(keycode - KC_OCT_0);
+      if (record->event.pressed) {
+        tiller_set_octave(keycode - KC_OCT_0);
+      }
       return false;
 
     case KC_CH_0 ... KC_CH_7:
