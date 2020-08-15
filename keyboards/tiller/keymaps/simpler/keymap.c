@@ -172,10 +172,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     UNSHIFT(KC_RBRACKET_US, KC_RBRACKET);
     UNSHIFT(KC_GRAVE_US, KC_GRAVE);
 
-    case CTL_T(KC_TAB):
-    case CTL_T(KC_ESC):
+    case KC_LCTL:
     case KC_LALT:
-      record->event.pressed ? layer_on(LAYER_TAB) : layer_off(LAYER_TAB);
+      if (record->event.pressed) {
+        if (get_highest_layer(layer_state) == LAYER_BASE) {
+          layer_on(LAYER_TAB);
+        }
+      } else {
+        layer_off(LAYER_TAB);
+      }
       return true;
 
     case KC_OCT_0 ... KC_OCT_4:
