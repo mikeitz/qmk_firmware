@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,   
-      CTL_T(KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G,
+      LC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LGUI, KC_LSFT, MO(LAYER_NAV),
 
@@ -53,26 +53,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
-      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX,
+      _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX, 
       _______, KC_TILDE, KC_GRAVE_US, KC_LBRACKET_US, KC_RBRACKET_US, XXXXXXX,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_AMPERSAND, KC_ASTERISK, KC_EQUAL_US, KC_PLUS, _______,
       XXXXXXX, KC_DQUO, KC_QUOTE_US, KC_MINUS_US, KC_UNDERSCORE, _______,
       XXXXXXX, KC_PIPE, KC_LT, KC_GT, KC_BSLASH_US, _______,
-      _______, _______, _______
+      _______, _______, _______   
     ),
 
-    [LAYER_NAV] = LAYOUT(
-      _______, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
-      CTL_T(KC_ENT), KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
+    [LAYER_NAV] = LAYOUT( 
+      KC_ESC, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
+      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
       _______, TT(LAYER_MUS), KC_SPC, KC_HOME, KC_END, KC_DEL,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
-      XXXXXXX, KC_4, KC_5, KC_6, KC_0, CTL_T(KC_ENT),
-      XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
-      _______, SFT_T(KC_SPC), _______
+      KC_TAB, KC_4, KC_5, KC_6, KC_0, _______,
+      S(KC_TAB), KC_1, KC_2, KC_3, KC_DOT, _______,
+      _______, _______, _______
     ),
 
     [LAYER_FN] = LAYOUT(
