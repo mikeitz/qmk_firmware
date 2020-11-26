@@ -70,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, TT(LAYER_MUS), KC_HOME, KC_SPC, KC_END, A(KC_F4),
       _______, _______, TG(LAYER_NAV),
 
-      XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
-      XXXXXXX, KC_4, KC_5, KC_6, KC_0, _______,
-      XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
+      C(KC_Y), KC_7, KC_8, KC_9, KC_MINUS, _______,
+      C(KC_Z), KC_4, KC_5, KC_6, KC_0, _______,
+      C(KC_A), KC_1, KC_2, KC_3, KC_DOT, _______,
       LT(LAYER_SYM, KC_TAB), _______, S(KC_TAB)
     ),
 
