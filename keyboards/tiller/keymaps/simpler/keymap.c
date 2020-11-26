@@ -77,15 +77,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
       _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME3),
-      _______, _______, _______,
+      _______, _______, XXXXXXX,
 
-      XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F11, _______,
-      XXXXXXX, KC_F4, KC_F5, KC_F6, KC_F10, _______,
-      XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, _______,
-      _______, _______, _______
+      KC_SCROLLLOCK, KC_F7, KC_F8, KC_F9, KC_F11, KC_SYSREQ,
+      KC_CAPSLOCK, KC_F4, KC_F5, KC_F6, KC_F10, KC_PSCREEN,
+      KC_NUMLOCK, KC_F1, KC_F2, KC_F3, KC_F12, KC_INSERT,
+      XXXXXXX, XXXXXXX, _______
     ),
 
     [LAYER_MUS] = LAYOUT(
