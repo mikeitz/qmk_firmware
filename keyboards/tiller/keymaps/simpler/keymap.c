@@ -31,7 +31,6 @@ enum custom_keycodes {
 #define LAYER_TAB 1
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
-#define LAYER_GAME3 5
 
 #define LAYER_NAV 12
 #define LAYER_SYM 13
@@ -67,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_NAV] = LAYOUT( 
       KC_ESC, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
       _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
-      MO(LAYER_MUS), KC_LALT, KC_LCTL, KC_HOME, KC_END, KC_SPC,
+      _______, MO(LAYER_MUS), KC_HOME, KC_SPC, KC_END, XXXXXXX ,
       _______, _______, _______,
 
       C(KC_Y), KC_7, KC_8, KC_9, KC_MINUS, _______,
@@ -76,6 +75,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, KC_LALT
     ),
 
+    [LAYER_FN] = LAYOUT(
+      KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6,
+      _______, XXXXXXX, XXXXXXX, KC_LCTL, KC_LALT, XXXXXXX,
+      _______, TG(LAYER_MUS), XXXXXXX, TG(LAYER_GAME), TG(LAYER_GAME2), XXXXXXX,
+      _______, _______, XXXXXXX,
+
+      KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
+      KC_CAPSLOCK, XXXXXXX, KC_UP, XXXXXXX, KC_PSCREEN, KC_SYSREQ,
+      KC_NUMLOCK, KC_LEFT, KC_DOWN, KC_RIGHT, KC_SCROLLLOCK, KC_INSERT,
+      XXXXXXX, XXXXXXX, _______
+    ),
+
+    /*
     [LAYER_FN] = LAYOUT(
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
@@ -87,6 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NUMLOCK, KC_F1, KC_F2, KC_F3, KC_F12, KC_INSERT,
       XXXXXXX, XXXXXXX, _______
     ),
+    */
 
     [LAYER_MUS] = LAYOUT(
       TG(LAYER_MUS), KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
@@ -134,18 +147,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, LT(LAYER_NAV, KC_SPC), _______
-    ),
-
-    [LAYER_GAME3] = LAYOUT(
-      KC_ESC, KC_TAB, KC_Q, KC_W, KC_E, XXXXXXX,
-      KC_1, KC_LSFT, KC_A, KC_S, KC_D, KC_F,
-      KC_V, KC_2, KC_Z, KC_LCTL, KC_X, XXXXXXX,
-      XXXXXXX, KC_SPC, KC_T,
-
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______
     )
 };
 
