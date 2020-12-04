@@ -28,7 +28,8 @@ enum custom_keycodes {
 };
 
 #define LAYER_BASE 0
-#define LAYER_TAB 1
+#define LAYER_COLE 1
+#define LAYER_TAB 2
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
 
@@ -51,6 +52,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       MO(LAYER_SYM), KC_SPC, MO(LAYER_FN)
     ),
 
+
+    [LAYER_COLE] = LAYOUT(
+      _______, KC_Q, KC_W, KC_F, KC_P, KC_B,   
+      _______, KC_A, KC_R, KC_S, KC_T, KC_G,
+      _______, KC_Z, KC_X, KC_C, KC_D, KC_V,
+      _______, _______, _______,
+
+      KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, _______,
+      KC_M, KC_N, KC_E, KC_I, KC_O, _______,
+      KC_K, KC_H, _______, _______, _______, _______,
+      _______, _______, _______
+    ),
+
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
       _______, KC_HASH, KC_DOLLAR, KC_LPRN, KC_RPRN, XXXXXXX, 
@@ -69,37 +83,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, MO(LAYER_MUS), KC_HOME, KC_SPC, KC_END, XXXXXXX ,
       _______, _______, _______,
 
-      C(KC_Y), KC_7, KC_8, KC_9, KC_MINUS, _______,
+      XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       XXXXXXX, KC_4, KC_5, KC_6, KC_0, _______,
       XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
       _______, _______, KC_LALT
     ),
 
     [LAYER_FN] = LAYOUT(
-      KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6,
-      _______, XXXXXXX, XXXXXXX, KC_LCTL, KC_LALT, XXXXXXX,
-      _______, TG(LAYER_MUS), XXXXXXX, TG(LAYER_GAME), TG(LAYER_GAME2), XXXXXXX,
-      _______, _______, XXXXXXX,
-
-      KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
-      KC_CAPSLOCK, XXXXXXX, KC_UP, XXXXXXX, KC_PSCREEN, KC_SYSREQ,
-      KC_NUMLOCK, KC_LEFT, KC_DOWN, KC_RIGHT, KC_SCROLLLOCK, KC_INSERT,
-      XXXXXXX, XXXXXXX, _______
-    ),
-
-    /*
-    [LAYER_FN] = LAYOUT(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME3),
+      XXXXXXX, XXXXXXX, XXXXXXX, A(KC_UP), XXXXXXX, TG(LAYER_GAME2),
+      _______, KC_LCTL, A(KC_LEFT), A(KC_DOWN), A(KC_RIGHT), TG(LAYER_GAME),
+      _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, XXXXXXX,
 
       KC_SCROLLLOCK, KC_F7, KC_F8, KC_F9, KC_F11, KC_SYSREQ,
       KC_CAPSLOCK, KC_F4, KC_F5, KC_F6, KC_F10, KC_PSCREEN,
       KC_NUMLOCK, KC_F1, KC_F2, KC_F3, KC_F12, KC_INSERT,
-      XXXXXXX, XXXXXXX, _______
+      XXXXXXX, _______, XXXXXXX
     ),
-    */
+
 
     [LAYER_MUS] = LAYOUT(
       TG(LAYER_MUS), KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
