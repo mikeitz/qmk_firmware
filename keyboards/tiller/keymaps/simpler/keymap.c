@@ -28,14 +28,13 @@ enum custom_keycodes {
 };
 
 #define LAYER_BASE 0
-#define LAYER_COLE 1
 #define LAYER_TAB 2
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
 
-#define LAYER_NAV 12
-#define LAYER_SYM 13
-#define LAYER_FN 14
+#define LAYER_NAV 7
+#define LAYER_SYM 8
+#define LAYER_FN 9
 #define LAYER_MUS 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -50,19 +49,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_DEL,
       MO(LAYER_SYM), KC_SPC, MO(LAYER_FN)
-    ),
-
-
-    [LAYER_COLE] = LAYOUT(
-      _______, KC_Q, KC_W, KC_F, KC_P, KC_B,   
-      _______, KC_A, KC_R, KC_S, KC_T, KC_G,
-      _______, KC_Z, KC_X, KC_C, KC_D, KC_V,
-      _______, _______, _______,
-
-      KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, _______,
-      KC_M, KC_N, KC_E, KC_I, KC_O, _______,
-      KC_K, KC_H, _______, _______, _______, _______,
-      _______, _______, _______
     ),
 
     [LAYER_SYM] = LAYOUT(
@@ -90,8 +76,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_FN] = LAYOUT(
-      XXXXXXX, XXXXXXX, XXXXXXX, A(KC_UP), XXXXXXX, TG(LAYER_GAME2),
-      _______, KC_LCTL, A(KC_LEFT), A(KC_DOWN), A(KC_RIGHT), TG(LAYER_GAME),
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
+      _______, KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
       _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       _______, _______, XXXXXXX,
 
@@ -100,7 +86,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NUMLOCK, KC_F1, KC_F2, KC_F3, KC_F12, KC_INSERT,
       XXXXXXX, _______, XXXXXXX
     ),
-
 
     [LAYER_MUS] = LAYOUT(
       TG(LAYER_MUS), KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,

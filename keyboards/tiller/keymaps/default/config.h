@@ -17,3 +17,8 @@
 #pragma once
 
 // place overrides here
+
+#define TAPPING_TOGGLE 4
+#define ONESHOT_TAP_TOGGLE 0
+#define ONESHOT_TIMEOUT 1000
+#define TAPPING_TERM 200
