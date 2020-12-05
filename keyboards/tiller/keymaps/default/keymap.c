@@ -33,10 +33,10 @@ enum custom_keycodes {
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
 
-#define LAYER_NAV 7
+#define LAYER_FN 7
 #define LAYER_SYM 8
-#define LAYER_FN 9
-#define LAYER_ARROWS 10
+#define LAYER_NUM 9
+
 #define LAYER_MUS 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -45,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,   
       KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
-      KC_LGUI, KC_LSFT, MO(LAYER_NAV),
+      KC_LGUI, KC_LSFT, MO(LAYER_NUM),
 
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
@@ -65,54 +65,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______
     ),
 
-    [LAYER_NAV] = LAYOUT( 
-      KC_ESC, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
-      _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
-      _______, MO(LAYER_MUS), KC_HOME, KC_SPC, KC_END, XXXXXXX ,
+    [LAYER_NUM] = LAYOUT(
+      KC_ESC, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,
+      _______, KC_0, KC_4, KC_5, KC_6, XXXXXXX,
+      _______, MO(LAYER_MUS), KC_1, KC_2, KC_3, XXXXXXX,
       _______, _______, _______,
 
       XXXXXXX, KC_7, KC_8, KC_9, KC_MINUS, _______,
       XXXXXXX, KC_4, KC_5, KC_6, KC_0, _______,
       XXXXXXX, KC_1, KC_2, KC_3, KC_DOT, _______,
-      _______, _______, KC_LALT
-    ),
-
-    [LAYER_FN] = LAYOUT(
-      KC_SYSREQ, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,
-      _______, KC_F11, KC_F12, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
-      _______, _______, XXXXXXX,
-
-      KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_SCROLLLOCK,
-      KC_CAPSLOCK, XXXXXXX, KC_UP, XXXXXXX, TG(LAYER_ARROWS), KC_PSCREEN,
-      KC_NUMLOCK, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LALT, KC_INSERT,
-      XXXXXXX, _______, XXXXXXX
-    ),
-
-    [LAYER_ARROWS] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, _______,
-
-      _______, _______, _______, _______, _______, _______,
-      _______, _______, KC_UP, _______, TG(LAYER_ARROWS), _______,
-      _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LALT, _______,
       _______, _______, _______
     ),
 
-    /*[LAYER_FN] = LAYOUT(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME2),
-      _______, KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, TG(LAYER_GAME),
-      _______, TG(LAYER_MUS), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      _______, _______, XXXXXXX,
+    [LAYER_FN] = LAYOUT(
+      _______, KC_F11, KC_F7, KC_F8, KC_F9, TG(LAYER_GAME2),
+      _______, KC_F10, KC_F4, KC_F5, KC_F6, TG(LAYER_GAME),
+      _______, KC_F12, KC_F1, KC_F2, KC_F3, TG(LAYER_MUS),
+      _______, _______, _______,
 
-      KC_SCROLLLOCK, KC_F7, KC_F8, KC_F9, KC_F11, KC_SYSREQ,
-      KC_CAPSLOCK, KC_F4, KC_F5, KC_F6, KC_F10, KC_PSCREEN,
-      KC_NUMLOCK, KC_F1, KC_F2, KC_F3, KC_F12, KC_INSERT,
-      XXXXXXX, _______, XXXXXXX
-    ),*/
-
+      KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      KC_PGDN, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX, _______,
+      KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      _______, _______, _______
+    ),
 
     [LAYER_MUS] = LAYOUT(
       TG(LAYER_MUS), KC_OCT_0, KC_OCT_1, KC_OCT_2, KC_OCT_3, KC_OCT_4,
@@ -147,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
-      _______, LT(LAYER_NAV, KC_SPC), _______
+      _______, LT(LAYER_NUM, KC_SPC), _______
     ),
 
     [LAYER_GAME2] = LAYOUT(
@@ -159,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
-      _______, LT(LAYER_NAV, KC_SPC), _______
+      _______, LT(LAYER_NUM, KC_SPC), _______
     )
 };
 
