@@ -67,15 +67,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_NUM] = LAYOUT(
       //*
-      KC_ESC, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,
-      _______, KC_0, KC_4, KC_5, KC_6, XXXXXXX,
-      _______, MO(LAYER_MUS), KC_1, KC_2, KC_3, XXXXXXX,
+      KC_ESC, XXXXXXX, KC_7, KC_8, KC_9, KC_SCROLLLOCK,
+      _______, KC_0, KC_4, KC_5, KC_6, KC_CAPSLOCK,
+      _______, MO(LAYER_MUS), KC_1, KC_2, KC_3, KC_NUMLOCK,
       _______, _______, _______,
       //*/
       /*
       KC_ESC, A(KC_F4), C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_PGUP,
       _______, KC_LSFT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN,
-      _______, MO(LAYER_MUS), KC_HOME, KC_SPC, KC_END, XXXXXXX ,
+      _______, MO(LAYER_MUS), KC_HOME, KC_SPC, KC_END, XXXXXXX,
       _______, _______, _______,
       //*/
       KC_KP_PLUS, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_MINUS, _______,
@@ -90,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_F12, KC_F1, KC_F2, KC_F3, TG(LAYER_MUS),
       _______, _______, _______,
 
-      KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-      KC_PGDN, C(KC_LEFT), KC_UP, C(KC_RIGHT), XXXXXXX, _______,
-      KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
+      KC_PAUSE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      KC_PSCREEN, KC_HOME, KC_UP, KC_END, KC_PGUP, _______,
+      KC_INSERT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, _______,
       _______, _______, _______
     ),
 
