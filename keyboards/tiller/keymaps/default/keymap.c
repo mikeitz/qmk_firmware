@@ -34,8 +34,8 @@ enum custom_keycodes {
 #define LAYER_GAME2 4
 
 #define LAYER_FN 7
-#define LAYER_SYM 8
-#define LAYER_NUM 9
+#define LAYER_NUM 8
+#define LAYER_SYM 9
 
 #define LAYER_MUS 15
 
@@ -67,9 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_NUM] = LAYOUT(
       //*
-      KC_ESC, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,
+      KC_ESC, KC_MINUS, KC_7, KC_8, KC_9, XXXXXXX,
       _______, KC_0, KC_4, KC_5, KC_6, XXXXXXX,
-      _______, XXXXXXX, KC_1, KC_2, KC_3, XXXXXXX,
+      _______, KC_DOT, KC_1, KC_2, KC_3, XXXXXXX,
       _______, _______, _______,
       //*/
       /*
@@ -90,15 +90,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______
     ),
 
+    // PGUP, PGDN, PAUSE, INS, SCRL, NUML, CAPL, PSCREEN
+
     [LAYER_FN] = LAYOUT(
       _______, KC_F11, KC_F7, KC_F8, KC_F9, TG(LAYER_GAME2),
       _______, KC_F10, KC_F4, KC_F5, KC_F6, TG(LAYER_GAME),
       _______, KC_F12, KC_F1, KC_F2, KC_F3, TG(LAYER_MUS),
       _______, _______, _______,
 
-      KC_PAUSE, XXXXXXX, KC_CAPSLOCK, KC_NUMLOCK, KC_SCROLLLOCK, _______,
-      KC_PSCREEN, KC_HOME, KC_UP, KC_END, KC_PGUP, _______,
-      KC_INSERT, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, _______,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      XXXXXXX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_HOME, _______,
+      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
       _______, _______, _______
     ),
 
