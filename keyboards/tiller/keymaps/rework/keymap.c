@@ -55,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_ASTERISK,
-      _______, KC_QUOTE_US, KC_DQUO, KC_LPRN, KC_RPRN, KC_AMPERSAND,
+      _______, KC_DQUO, KC_QUOTE_US, KC_LPRN, KC_RPRN, KC_AMPERSAND,
       _______, KC_HASH, KC_DOLLAR, KC_LBRACKET_US, KC_RBRACKET_US, KC_PIPE,
       _______, _______, _______,
 
