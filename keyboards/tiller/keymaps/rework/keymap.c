@@ -33,7 +33,7 @@ enum custom_keycodes {
 #define LAYER_GAME 3
 #define LAYER_GAME2 4
 
-#define LAYER_FN 7
+#define LAYER_SFT 7
 #define LAYER_NUM 9
 #define LAYER_SYM 8
 
@@ -55,24 +55,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_SYM] = LAYOUT(
       _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_PERCENT,
-      _______, KC_DQUO, KC_QUOTE_US, KC_LPRN, KC_RPRN, KC_AMPERSAND, 
+      _______, KC_QUOTE_US, KC_DQUO, KC_LPRN, KC_RPRN, KC_AMPERSAND,
       _______, KC_HASH, KC_DOLLAR, KC_LBRACKET_US, KC_RBRACKET_US, KC_PIPE,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, KC_ASTERISK, KC_UP, KC_TILDE, KC_UNDERSCORE, _______,
       KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      KC_GRAVE_US, KC_BSLASH_US, KC_LT, KC_GT, KC_SLASH_US, _______,
+      KC_GRAVE_US, KC_MINUS_US, KC_EQUAL_US, KC_PLUS, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
     [LAYER_NUM] = LAYOUT(
-      KC_ESC, KC_MINUS_US, KC_7, KC_8, KC_9, KC_EQUAL_US,
-      _______, KC_0, KC_4, KC_5, KC_6, KC_PLUS,
+      KC_ESC, KC_MINUS_US, KC_7, KC_8, KC_9, KC_PGUP,
+      _______, KC_0, KC_4, KC_5, KC_6, KC_PGDN,
       _______, KC_SPC, KC_1, KC_2, KC_3, KC_DOT,
       _______, _______, _______,
 
-      KC_PGUP, KC_F7, KC_F8, KC_F9, KC_F11, _______,
-      KC_PGDN, KC_F4, KC_F5, KC_F6, KC_F10, _______,
+      KC_CAPSLOCK, KC_F7, KC_F8, KC_F9, KC_F11, _______,
+      KC_PSCR, KC_F4, KC_F5, KC_F6, KC_F10, _______,
       KC_INSERT, KC_F1, KC_F2, KC_F3, KC_F12, _______,
       _______, _______, _______
     ),
