@@ -37,12 +37,14 @@ enum custom_keycodes {
 #define LAYER_NUM 9
 #define LAYER_SYM 8
 
+#define LAYER_FN 10
+
 #define LAYER_MUS 15
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,   
+      KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T,
       KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G,
       KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B,
       KC_LGUI, KC_LSFT, MO(LAYER_NUM),
@@ -50,24 +52,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
       KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_ENT,
       KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_DEL,
-      MO(LAYER_SYM), KC_SPC, XXXXXXX
+      MO(LAYER_SYM), KC_SPC, MO(LAYER_FN)
     ),
 
     [LAYER_SYM] = LAYOUT(
-      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_ASTERISK,
-      _______, KC_DQUO, KC_QUOTE_US, KC_LPRN, KC_RPRN, KC_AMPERSAND,
-      _______, KC_HASH, KC_DOLLAR, KC_LBRACKET_US, KC_RBRACKET_US, KC_PIPE,
+      _______, KC_EXCLAIM, KC_AT, KC_LCBR, KC_RCBR, KC_DQUO,
+      _______, KC_HASH, KC_ASTERISK, KC_LPRN, KC_RPRN, KC_QUOTE_US,
+      _______, KC_AMPERSAND, KC_PIPE, KC_LBRACKET_US, KC_RBRACKET_US, KC_GRAVE_US,
       _______, _______, _______,
 
       KC_CIRCUMFLEX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_UNDERSCORE, _______,
       KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      KC_GRAVE_US, KC_MINUS_US, KC_EQUAL_US, KC_PLUS, KC_BSLASH_US, _______,
+      KC_TILDE, KC_MINUS_US, KC_EQUAL_US, KC_PLUS, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
     [LAYER_NUM] = LAYOUT(
       KC_ESC, KC_MINUS_US, KC_7, KC_8, KC_9, KC_PERCENT,
-      _______, KC_0, KC_4, KC_5, KC_6, KC_TILDE,
+      _______, KC_0, KC_4, KC_5, KC_6, KC_DOLLAR,
       _______, KC_SPC, KC_1, KC_2, KC_3, KC_DOT,
       _______, _______, _______,
 
@@ -99,6 +101,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,
       _______, _______, _______
+    ),
+
+    [LAYER_FN] = LAYOUT(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      _______, _______, XXXXXXX,
+
+      XXXXXXX, TG(LAYER_GAME), TG(LAYER_GAME2), XXXXXXX, XXXXXXX, RESET,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [LAYER_GAME] = LAYOUT(
