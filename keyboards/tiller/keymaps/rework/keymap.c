@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       KC_CIRCUMFLEX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_UNDERSCORE, _______,
       KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      KC_TILDE, KC_MINUS_US, KC_EQUAL_US, KC_PLUS, KC_BSLASH_US, _______,
+      KC_TILDE, KC_EQUAL_US, KC_MINUS_US, KC_PLUS, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
