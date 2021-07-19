@@ -63,14 +63,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       KC_CIRCUMFLEX, C(KC_LEFT), KC_UP, C(KC_RIGHT), KC_UNDERSCORE, _______,
       KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, _______,
-      KC_TILDE, KC_EQUAL_US, KC_MINUS_US, KC_PLUS, KC_BSLASH_US, _______,
+      KC_TILDE, KC_MINUS_US, KC_EQUAL_US, KC_PLUS, KC_BSLASH_US, _______,
       _______, _______, _______
     ),
 
     [LAYER_NUM] = LAYOUT(
       KC_ESC, KC_MINUS_US, KC_7, KC_8, KC_9, KC_PERCENT,
       _______, KC_0, KC_4, KC_5, KC_6, KC_DOLLAR,
-      _______, KC_SPC, KC_1, KC_2, KC_3, KC_DOT,
+      _______, KC_DOT, KC_1, KC_2, KC_3, KC_SPC,
       _______, _______, _______,
 
       KC_PGUP, KC_F7, KC_F8, KC_F9, KC_F11, _______,
